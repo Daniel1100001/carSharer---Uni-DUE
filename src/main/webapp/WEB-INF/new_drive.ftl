@@ -62,7 +62,7 @@
             height: 28px;
         }
 
-        body table tr td input.small[type=text] {
+        body table tr td input.small[type=text], body table tr td input.small[type=number] {
             width: 64px;
             height: 28px;
             margin: 0 auto;
@@ -144,7 +144,7 @@
         <tr>
             <td><b>Maximale Kapazität:</b></td>
             <td>
-                <input required class="small" type="text" placeholder="1-10">
+                <input required class="small" type="number" min="1" max="10" value="1">
             </td>
         </tr>
         <tr>
