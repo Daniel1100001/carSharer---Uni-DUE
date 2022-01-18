@@ -49,7 +49,12 @@
         }
 
         body table tr td:last-child {
-            align-items: flex-start;
+            align-items: center;
+        }
+
+        body table tr td p {
+            margin: 0;
+            padding: 0;
         }
 
         body table tr td input.large[type=text] {
@@ -63,9 +68,22 @@
             margin: 0 auto;
         }
 
+        body table tr td input[type=date] {
+            margin-right: 8px;
+        }
+
+        body table tr td select {
+            margin-left: auto;
+            margin-right: 8px;
+            border-radius: 2px;
+            background: white;
+            box-shadow: none;
+            border: 1px solid rgba(0, 0, 0, .5);
+        }
+
         body table tr td .euro {
             position: absolute;
-            top: 0;
+            top: 50%;
             left: calc(50% + 48px);
             transform: translate(-50%, -50%);
         }
@@ -114,25 +132,25 @@
         <tr>
             <td><b>Von:</b></td>
             <td>
-                <input class="large" type="text" placeholder="Stadt eingeben...">
+                <input required class="large" type="text" placeholder="Stadt eingeben...">
             </td>
         </tr>
         <tr>
             <td><b>Bis:</b></td>
             <td>
-                <input class="large" type="text" placeholder="Stadt eingeben...">
+                <input required class="large" type="text" placeholder="Stadt eingeben...">
             </td>
         </tr>
         <tr>
             <td><b>Maximale Kapazität:</b></td>
             <td>
-                <input class="small" type="text" placeholder="1-10">
+                <input required class="small" type="text" placeholder="1-10">
             </td>
         </tr>
         <tr>
             <td><b>Fahrtkosten:</b></td>
             <td>
-                <input class="small" type="text" placeholder="Betrag">
+                <input required class="small" type="text" placeholder="Betrag">
                 <p class="euro">€</p>
             </td>
         </tr>
@@ -152,7 +170,36 @@
         <tr>
             <td><b>Fahrtdatum:</b></td>
             <td>
-                Platzhalter
+                <input required type="date" id="date" name="trip-date" placeholder="0000-00-00" max="2023-01-01">
+                <p>Datum</p>
+
+                <select name="time" id="time">
+                    <option value="00:00">00:00</option>
+                    <option value="01:00">01:00</option>
+                    <option value="02:00">02:00</option>
+                    <option value="03:00">03:00</option>
+                    <option value="04:00">04:00</option>
+                    <option value="05:00">05:00</option>
+                    <option value="06:00">06:00</option>
+                    <option value="07:00">07:00</option>
+                    <option value="08:00">08:00</option>
+                    <option value="09:00">09:00</option>
+                    <option value="10:00">10:00</option>
+                    <option value="11:00">11:00</option>
+                    <option value="12:00">12:00</option>
+                    <option value="13:00">13:00</option>
+                    <option value="14:00">14:00</option>
+                    <option value="15:00">15:00</option>
+                    <option value="16:00">16:00</option>
+                    <option value="17:00">17:00</option>
+                    <option value="18:00">18:00</option>
+                    <option value="19:00">19:00</option>
+                    <option value="20:00">20:00</option>
+                    <option value="21:00">21:00</option>
+                    <option value="22:00">22:00</option>
+                    <option value="23:00">23:00</option>
+                </select>
+                <p>Uhrzeit</p>
             </td>
         </tr>
         <tr>
