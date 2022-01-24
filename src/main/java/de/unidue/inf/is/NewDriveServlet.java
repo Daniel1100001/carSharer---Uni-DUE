@@ -1,16 +1,82 @@
 package de.unidue.inf.is;
 
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+
+import de.unidue.inf.is.domain.Drive;
+import de.unidue.inf.is.domain.User;
+import de.unidue.inf.is.utils.DateTimeUtil;
 
 
+
+/**
+ * Einfaches Beispiel, das die Vewendung der Template-Engine zeigt.
+ */
 public final class NewDriveServlet extends HttpServlet {
+
+    private static final long serialVersionUID = 1L;
+
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("/new_drive.ftl").forward(request, response);
+        Drive driveToAdd = new Drive();
+    	request.setAttribute("drive", driveList);
+    	request.getRequestDispatcher("/new_drive.ftl").forward(request, response);
+
+        
+        
+ /*       
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Put the user list in request and let freemarker paint it.
+        request.setAttribute("users", userList);
+
+        request.getRequestDispatcher("/index.ftl").forward(request, response);
+    }
+
+*/
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,
+                    IOException {
+        //wie bekomme ich aus den request die Daten im richtigen Type raus?
+    	
+    	String startOrt = request.getParameter("Von");
+    	String zielOrt = request.getParameter("Bis");
+    	String fahrtZeitString = request.getParameter("time");
+    	String fahrtDatumString = request.getParameter("date");
+//    	Timestamp fahrtDatumZeiTime = (Timestamp DateTimeUtil.convertDateAndTimeToDB2DateTime(fahrtZeit, fahrtDatum);
+    	short maxPlaetze = Short.parseShort(request.getParameter("Maximale Kapazität"));
+ /* oder
+  *    	short maxPlaetze  = (short) request.getIntHeader("Maximale Kapazität");
+  */
+    	BigDecimal fahrtkosten = (BigDecimal) request.getParameter("Fahrtkosten");
+    	String status = "offen";
+    	short transportmittel = (request.getParameter("cartype") ="car") ? 1 :
+    		(request.getParameter("cartype") ="bus") ? 2 : 
+    		(request.getParameter("cartype") ="transporter" ) ? 3  );		
+        Clob beschreibung = (Clob) request.getParameter("Beschreibung");      		
+        
+        
+        
+//muss noch verbessert werden     Checkt ob in allen Parametern was drin steht   
+        if (null != startOrt && null != zielOrt && !.isEmpty() && !.isEmpty() && !.isEmpty() && !.isEmpty() && !.isEmpty() && !.isEmpty()) {
+
+       
+            }
+
+        }
+
+        doGet(request, response);
     }
 }
+
+
+

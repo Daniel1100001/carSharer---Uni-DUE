@@ -14,23 +14,22 @@ import com.ibm.db2.jcc.DB2Administrator;
 
 import de.unidue.inf.is.utils.DBUtil;
 import de.unidue.inf.is.utils.DateTimeUtil;
-
+import de.unidue.inf.is.domain.Bewertung;
 import de.unidue.inf.is.domain.Drive;
 import de.unidue.inf.is.domain.User;
 
-	public final class DriveRead {
+	public final class BewertungRead {
 
 	    private Connection connection;
 
-        public List<Drive> getDriveOffen(User user) throws Exception {
+        public List<Bewertung> getBewertung(Drive driveToViewRate) throws Exception {
             try {
                 Connection con = DBUtil.getConnection();
                 con.setAutoCommit(false);
                 
-                PreparedStatement statement = con.prepareStatement("SELECT * FROM drive WHERE fid != (SELECT fid FROM reservieren WHERE kunde = ?) "
-                		+ "AND status = 'offen' ;");
-                statement.setShort(1, user.getBid());
-            	List<Drive> driveList = new ArrayList<>();
+                PreparedStatement statement = con.prepareStatement("SELECT * FROM bewertung WHERE fid = ?");
+                statement.setShort(1, driveToViewRate.getFid());
+            	List<Bewertung> bewertungList = new ArrayList<>();
                 ResultSet result = statement.executeQuery();
                 while(result.next()) {
                 	Drive offenerDrive = new Drive(result.getShort("fid"),
@@ -43,10 +42,10 @@ import de.unidue.inf.is.domain.User;
                 			result.getShort("anbieter"),
                 			result.getShort("transportmittel"),
                 			result.getClob("beschreibung"));
-                	driveList.add(offenerDrive);
+                	bewertungList.add(offenerDrive);
                 	
                 }
-                return driveList;
+                return bewertungList;
             }
             catch (SQLException e) {
                 throw new Exception(e);
@@ -86,3 +85,7 @@ import de.unidue.inf.is.domain.User;
 
 	}
 
+
+public class BewertungRead {
+
+}
