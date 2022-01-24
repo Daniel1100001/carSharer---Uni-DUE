@@ -33,6 +33,14 @@
             margin-bottom: 32px;
         }
 
+        body .content .drives-list .drives-list-inner {
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            grid-gap: 16px;
+            grid-auto-flow: column;
+        }
+
         body .content .drives-list h2 {
             margin: 0 0 12px 0;
             padding: 0;
@@ -46,6 +54,39 @@
             align-items: center;
             background: rgba(255, 255, 255, .75);
             border-radius: 12px;
+        }
+
+        body .content .drives-list .drives-list-inner .drive-card {
+            width: 100%;
+            height: 256px;
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(255, 255, 255, .75);
+            border-radius: 12px;
+            box-sizing: border-box;
+        }
+
+        body .content .drives-list .drives-list-inner .drive-card p {
+            margin: 0;
+        }
+
+        body .content .drives-list .drives-list-inner .drive-card button {
+            width: 4em;
+            height: 4em;
+            margin-bottom: auto;
+        }
+
+        body .content .drives-list .drives-list-inner .drive-card .card-row {
+            margin-bottom: 8px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+
+        body .content .drives-list .drives-list-inner .drive-card .card-row b {
+            margin-right: 8px;
         }
 
         body .content a {
@@ -74,9 +115,32 @@
         <div class="drives-list reserved-drives">
             <h2>Meine reservierten Fahrten</h2>
 
-            <div class="placeholder">
-                <p>Keine Fahrten reserviert.</p>
-            </div>
+            <#if (drives?size > 0)>
+                <div class="drives-list-inner">
+                    <#list drives as drive>
+                        <div class="drive-card">
+                            <button type="submit">X</button>
+                            <div class="card-row">
+                                <b>Von:</b>
+                                <p>${drive.startOrt}</p>
+                            </div>
+                            <div class="card-row">
+                                <b>Bis:</b>
+                                <p>${drive.zielOrt}</p>
+                            </div>
+                            <div class="card-row">
+                                <b>Status:</b>
+                                <p>Offen</p>
+                            </div>
+                        </div>
+                    </#list>
+                </div>
+            </#if>
+            <#if (drives?size = 0)>
+                <div class="placeholder">
+                    <p>Keine Fahrten reserviert.</p>
+                </div>
+            </#if>
         </div>
 
         <div class="drives-list open-drives">

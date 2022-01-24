@@ -4,20 +4,25 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 
-import de.unidue.inf.is.domain.User;
+import com.ibm.db2.jcc.DB2Administrator;
+
 import de.unidue.inf.is.utils.DBUtil;
+import de.unidue.inf.is.utils.DateTimeUtil;
 
 
+import de.unidue.inf.is.domain.Bewertung;
 
-public final class UserStore implements Closeable {
+public final class BewertungStore implements Closeable {
 
     private Connection connection;
     private boolean complete;
 
 
-    public UserStore() throws StoreException {
+    public BewertungStore() throws StoreException {
         try {
             connection = DBUtil.getConnection();
             connection.setAutoCommit(false);
@@ -28,12 +33,14 @@ public final class UserStore implements Closeable {
     }
 
 
-    public void addUser(User userToAdd) throws StoreException {
+    public void addBewertung(Bewertung bewertungToAdd) throws StoreException {
         try {
-            PreparedStatement preparedStatement = connection
-                            .prepareStatement("insert into benutzer (name, email) values (?, ?)");
-            preparedStatement.setString(1, userToAdd.getname());
-            preparedStatement.setString(2, userToAdd.getemail());
+            PreparedStatement preparedStatement = connection.prepareStatement(""
+            		+ "insert into Bewertung (textnachricht, erstellungsdatum, rating)"
+            		+ " values (?, ?, ?);");
+            preparedStatement.setString(1, bewertungToAdd.gettextnachricht());
+            preparedStatement.setTimestamp(2, bewertungToAdd.geterstellungsdatum());
+            preparedStatement.setShort(3, bewertungToAdd.getrating());
             preparedStatement.executeUpdate();
         }
         catch (SQLException e) {
@@ -73,3 +80,6 @@ public final class UserStore implements Closeable {
     }
 
 }
+
+
+

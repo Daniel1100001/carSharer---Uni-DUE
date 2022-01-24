@@ -171,7 +171,11 @@
             <td><b>Fahrtdatum:</b></td>
             <td>
                 <input required type="date" id="date" name="trip-date" placeholder="0000-00-00" max="2023-01-01">
-                <p>Datum</p>
+  
+             
+  	<!--			<input required type="date" id="date" name="trip-date" pattern="(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))">
+  	  --> 
+  	  			<p>Datum</p>
 
                 <select name="time" id="time">
                     <option value="00:00">00:00</option>

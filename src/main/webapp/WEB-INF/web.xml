@@ -107,16 +107,6 @@
 		<servlet-name>viewsearch_servlet</servlet-name>
 		<url-pattern>/view_search</url-pattern>
 	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>login_servlet</servlet-name>
-		<servlet-class>de.unidue.inf.is.LoginViewServlet</servlet-class>
-	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>login_servlet</servlet-name>
-		<url-pattern>/login</url-pattern>
-	</servlet-mapping>
 	
 	<servlet>
 		<servlet-name>carSharer_servlet</servlet-name>

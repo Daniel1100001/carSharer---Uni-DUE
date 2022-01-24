@@ -1,5 +1,7 @@
 package de.unidue.inf.is.utils;
 
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -56,7 +58,13 @@ public class DateTimeUtil {
         }
         return datetimeStr;
     }
-
+/*
+    public static Timestamp connectDateTime (Time fahrtZeit, Date fahrtDate) ) {
+    	return Timestamp.of(fahrtDate,fahrtZeit);
+    }
+*/    
+    
+    
     public static void main(String[] args) {
         System.out.println(extractDateFromDB2DateTimeString("2022-03-12 08:00:00.000000"));
         System.out.println(extractTimeFromDB2DateTimeString("2022-02-02 08:00:00.000000"));

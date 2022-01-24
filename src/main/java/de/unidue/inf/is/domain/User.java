@@ -1,29 +1,22 @@
 package de.unidue.inf.is.domain;
 
 public final class User {
-
-    private String firstname;
-    private String lastname;
-
-
-    public User() {
+    private String name ;
+    private String email;
+    private Short bid;
+    public User(short bid, String name, String email) {
+        this.name = name;
+        this.email = email;
     }
 
+    public String getname() { return name; }
+    public String getemail() { return email; }
 
-    public User(String firstname, String lastname) {
-        this.firstname = firstname;
-        this.lastname = lastname;
-
-    }
-
-
-    public String getFirstname() {
-        return firstname;
-    }
-
-
-    public String getLastname() {
-        return lastname;
-    }
-
+    
+    
+    
+   //Bid ist hardcodiert 
+	public short getBid() {
+		return 1;
+	}
 }
