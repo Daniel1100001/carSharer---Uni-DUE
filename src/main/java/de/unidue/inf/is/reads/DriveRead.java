@@ -33,7 +33,7 @@ import de.unidue.inf.is.domain.User;
             	List<Drive> driveList = new ArrayList<>();
                 ResultSet result = statement.executeQuery();
                 while(result.next()) {
-                	Drive offenerDrive = new Drive(result.getShort("fid"),
+                	Drive offenerDrive = new Drive(
                 			result.getString("startort"),
                 			result.getString("zielort"),
                 			result.getTimestamp("fahrtDatumZeit"),
@@ -42,7 +42,8 @@ import de.unidue.inf.is.domain.User;
                 			result.getString("status"),
                 			result.getShort("anbieter"),
                 			result.getShort("transportmittel"),
-                			result.getClob("beschreibung"));
+                			result.getClob("beschreibung"),
+                			result.getShort("fid"));
                 	driveList.add(offenerDrive);
                 	
                 }
@@ -64,7 +65,7 @@ import de.unidue.inf.is.domain.User;
             	List<Drive> driveList = new ArrayList<>();
                 ResultSet result = statement.executeQuery();
                 while(result.next()) {
-                	Drive offenerDrive = new Drive(result.getShort("fid"),
+                	Drive offenerDrive = new Drive(
                 			result.getString("startort"),
                 			result.getString("zielort"),
                 			result.getTimestamp("fahrtDatumZeit"),
@@ -73,7 +74,8 @@ import de.unidue.inf.is.domain.User;
                 			result.getString("status"),
                 			result.getShort("anbieter"),
                 			result.getShort("transportmittel"),
-                			result.getClob("beschreibung"));
+                			result.getClob("beschreibung"),
+                			result.getShort("fid"));
                 	driveList.add(offenerDrive);
                 	
                 }

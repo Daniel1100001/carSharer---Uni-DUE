@@ -21,28 +21,25 @@ import de.unidue.inf.is.domain.User;
 	public final class BewertungRead {
 
 	    private Connection connection;
-
+///muss verbessert werden
+	    
         public List<Bewertung> getBewertung(Drive driveToViewRate) throws Exception {
             try {
                 Connection con = DBUtil.getConnection();
                 con.setAutoCommit(false);
                 
-                PreparedStatement statement = con.prepareStatement("SELECT * FROM bewertung WHERE fid = ?");
+                PreparedStatement statement = con.prepareStatement("SELECT (textnachricht,erstellungsdatum, rating, email, )  FROM bewertung b,schreiben s, fahrt f WHERE f.fid = ? AND f.fid = s.fid AND s.beid = b.beid ORDER BY erstellungsdatum");
+                
                 statement.setShort(1, driveToViewRate.getFid());
             	List<Bewertung> bewertungList = new ArrayList<>();
                 ResultSet result = statement.executeQuery();
                 while(result.next()) {
-                	Drive offenerDrive = new Drive(result.getShort("fid"),
-                			result.getString("startort"),
-                			result.getString("zielort"),
-                			result.getTimestamp("fahrtDatumZeit"),
-                			result.getShort("maxPlaetze"),
-                			result.getBigDecimal("fahrtkosten"),
-                			result.getString("status"),
-                			result.getShort("anbieter"),
-                			result.getShort("transportmittel"),
-                			result.getClob("beschreibung"));
-                	bewertungList.add(offenerDrive);
+                	Bewertung bewertung = new Bewertung(
+                			result.getString("textnachricht"),
+                			result.getShort("rating"),
+                			result.getString("email")
+                			);
+                	bewertungList.add(bewertung);
                 	
                 }
                 return bewertungList;
@@ -51,41 +48,6 @@ import de.unidue.inf.is.domain.User;
                 throw new Exception(e);
             }
         }
-        
-        public List<Drive> getDriveReserviert(User user) throws Exception {
-            try {
-                Connection con = DBUtil.getConnection();
-                con.setAutoCommit(false);
-                
-                PreparedStatement statement = con.prepareStatement("SELECT * FROM drive WHERE fid = (SELECT fid FROM reservieren WHERE kunde = ?) "
-                		+ "AND status = 'offen' ;");
-                statement.setShort(1, user.getBid());
-            	List<Drive> driveList = new ArrayList<>();
-                ResultSet result = statement.executeQuery();
-                while(result.next()) {
-                	Drive offenerDrive = new Drive(result.getShort("fid"),
-                			result.getString("startort"),
-                			result.getString("zielort"),
-                			result.getTimestamp("fahrtDatumZeit"),
-                			result.getShort("maxPlaetze"),
-                			result.getBigDecimal("fahrtkosten"),
-                			result.getString("status"),
-                			result.getShort("anbieter"),
-                			result.getShort("transportmittel"),
-                			result.getClob("beschreibung"));
-                	driveList.add(offenerDrive);
-                	
-                }
-                return driveList;
-            }
-            catch (SQLException e) {
-                throw new Exception(e);
-            }
-        }
-
 	}
-
-
-public class BewertungRead {
-
-}
+        
+       

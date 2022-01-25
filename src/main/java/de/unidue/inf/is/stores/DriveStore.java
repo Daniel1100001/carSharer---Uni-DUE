@@ -33,15 +33,14 @@ import de.unidue.inf.is.domain.User;
 	    }
 
 
-	    public void addFahrt(Drive driveToAdd, User user) throws StoreException {
+	    public  void addFahrt(Drive driveToAdd, User user) throws StoreException {
 	        try {
 	            PreparedStatement preparedStatement = connection.prepareStatement(""
 	            		+ "insert into fahrt (startort, zielort, fahrtdatumzeit, maxPlaetze, fahrkosten, status, anbieter, transportmittel, beschreibung )"
 	            		+ " values (?, ?, ?, ?, ?, ?, ?, ?, ?);");
 	            preparedStatement.setString(1, driveToAdd.getStartOrt());
 	            preparedStatement.setString(2, driveToAdd.getZielOrt());
-	            preparedStatement.setTimestamp(3,
-	                   Timestamp.valueOf(DateTimeUtil.convertDateAndTimeToDB2DateTime(driveToAdd.getfahrtDatumString(), driveToAdd.getfahrtZeitString())));
+	            preparedStatement.setTimestamp(3, driveToAdd.getfahrtDatumZeit());
                 preparedStatement.setShort(4, driveToAdd.getMaxPlaetze());
 	            preparedStatement.setBigDecimal(5, driveToAdd.getFahrtkosten());
 	            preparedStatement.setString(6, driveToAdd.getStatusFahrt());

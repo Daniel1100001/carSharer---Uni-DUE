@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import de.unidue.inf.is.domain.Drive;
 import de.unidue.inf.is.domain.User;
+import de.unidue.inf.is.stores.DriveStore;
 import de.unidue.inf.is.utils.DateTimeUtil;
 
 
@@ -31,6 +32,7 @@ public final class NewDriveServlet extends HttpServlet {
         Drive driveToAdd = new Drive();
     	request.setAttribute("drive", driveList);
     	request.getRequestDispatcher("/new_drive.ftl").forward(request, response);
+    }
 
         
         
@@ -44,35 +46,48 @@ public final class NewDriveServlet extends HttpServlet {
 
 */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,
-                    IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //wie bekomme ich aus den request die Daten im richtigen Type raus?
     	
     	String startOrt = request.getParameter("Von");
     	String zielOrt = request.getParameter("Bis");
-    	String fahrtZeitString = request.getParameter("time");
+    	String fahrtZeitString = request.getParameter("drive-time");
     	String fahrtDatumString = request.getParameter("date");
-//    	Timestamp fahrtDatumZeiTime = (Timestamp DateTimeUtil.convertDateAndTimeToDB2DateTime(fahrtZeit, fahrtDatum);
+    	Timestamp fahrtDatumZeit = Timestamp.valueOf( DateTimeUtil.convertDateAndTimeToDB2DateTime(fahrtZeitString, fahrtDatumString));
     	short maxPlaetze = Short.parseShort(request.getParameter("Maximale Kapazität"));
- /* oder
-  *    	short maxPlaetze  = (short) request.getIntHeader("Maximale Kapazität");
-  */
-    	BigDecimal fahrtkosten = (BigDecimal) request.getParameter("Fahrtkosten");
+    	
+        // oder
+        // short maxPlaetze  = (short) request.getIntHeader("Maximale Kapazität");
+  
+    	BigDecimal fahrtkosten = new BigDecimal( request.getParameter("drive-prize"));
     	String status = "offen";
-    	short transportmittel = (request.getParameter("cartype") ="car") ? 1 :
-    		(request.getParameter("cartype") ="bus") ? 2 : 
-    		(request.getParameter("cartype") ="transporter" ) ? 3  );		
-        Clob beschreibung = (Clob) request.getParameter("Beschreibung");      		
-        
-        
-        
-//muss noch verbessert werden     Checkt ob in allen Parametern was drin steht   
-        if (null != startOrt && null != zielOrt && !.isEmpty() && !.isEmpty() && !.isEmpty() && !.isEmpty() && !.isEmpty() && !.isEmpty()) {
+    	short transportmittel;
+    	switch (request.getParameter("cartype")) {
+		    case "car":
+			    transportmittel = 1;
+			    break;
+		    case "bus":
+			    transportmittel = 2;
+			    break;
+		    case "transporter":
+		        transportmittel = 3;
+			    break;
+		    default:
+		    	transportmittel = (Short) null;
+			    break;
+		    }
 
-       
-            }
-
-        }
+        
+    	Clob beschreibung = null;
+		try {
+			beschreibung = new javax.sql.rowset.serial.SerialClob(request.getParameter("Beschreibung").toCharArray());
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+        Drive newDrive = new Drive( startOrt, zielOrt, fahrtDatumZeit, maxPlaetze, fahrtkosten, status, maxPlaetze, transportmittel, beschreibung);
+        DriveStore.addFahrt(newDrive, );
 
         doGet(request, response);
     }

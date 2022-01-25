@@ -13,6 +13,7 @@ public final class Drive {
 	private String zielOrt;
 	private java.sql.Time fahrtZeit;
 	private java.sql.Date fahrtDatum;
+	private java.sql.Timestamp fahrtDatumZeit;
 	private String fahrtZeitString = fahrtZeit.toString();
 	private String fahrtDatumString = fahrtDatum.toString();
 	private short maxPlaetze;
@@ -21,10 +22,12 @@ public final class Drive {
 	private short anbieter;
 	private short transportmittel;
 	private Clob beschreibung;
-	
 
-	public Drive(short fid ,String startOrt, String zielOrt, java.sql.Timestamp fahrtDatumZeit, short maxPlaetze, java.math.BigDecimal fahrtkosten, String status, short anbieter, short transportmittel, Clob beschreibung) {
-		this.fid = fid;
+	public Drive() {
+	}
+
+	public Drive(String startOrt, String zielOrt, java.sql.Timestamp fahrtDatumZeit, short maxPlaetze, java.math.BigDecimal fahrtkosten, String status, short anbieter, short transportmittel, Clob beschreibung) {
+		this.fahrtDatumZeit = fahrtDatumZeit;
 		this.startOrt = startOrt;
 		this.zielOrt = zielOrt;
 		this.maxPlaetze = maxPlaetze;
@@ -35,6 +38,22 @@ public final class Drive {
 		this.beschreibung = beschreibung;
 	}
 	
+
+	public Drive(String startOrt, String zielOrt, java.sql.Timestamp fahrtDatumZeit, short maxPlaetze, java.math.BigDecimal fahrtkosten, String status, short anbieter, short transportmittel, Clob beschreibung,short fid) {
+		this.fahrtDatumZeit = fahrtDatumZeit;
+		this.startOrt = startOrt;
+		this.zielOrt = zielOrt;
+		this.maxPlaetze = maxPlaetze;
+		this.fahrtkosten = fahrtkosten;
+		this.status = status;
+		this.anbieter = anbieter;
+		this.transportmittel = transportmittel;
+		this.beschreibung = beschreibung;
+		this.fid = fid;
+	}
+	
+	
+	public Timestamp getfahrtDatumZeit() {return fahrtDatumZeit;}
 	public short getFid() {return fid;}
 	public String getStartOrt() { return startOrt; }
 	public String getZielOrt() { return zielOrt; }

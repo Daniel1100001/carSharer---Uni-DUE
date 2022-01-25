@@ -128,97 +128,98 @@
 <body>
     <h1>Fahrt erstellen</h1>
 
-    <table>
-        <tr>
-            <td><b>Von:</b></td>
-            <td>
-                <input required class="large" type="text" placeholder="Stadt eingeben...">
-            </td>
-        </tr>
-        <tr>
-            <td><b>Bis:</b></td>
-            <td>
-                <input required class="large" type="text" placeholder="Stadt eingeben...">
-            </td>
-        </tr>
-        <tr>
-            <td><b>Maximale Kapazität:</b></td>
-            <td>
-                <input required class="small" type="number" min="1" max="10" value="1">
-            </td>
-        </tr>
-        <tr>
-            <td><b>Fahrtkosten:</b></td>
-            <td>
-                <input required class="small" type="text" placeholder="Betrag">
-                <p class="euro">€</p>
-            </td>
-        </tr>
-        <tr>
-            <td><b>Transportmittel:</b></td>
-            <td>
-                <input type="radio" name="cartype" id="car" value="car" checked>
-                <label for="car">Auto</label>
+    <form action="#" id="create-drive" method="POST">
+        <table>
+            <tr>
+                <td><b>Von:</b></td>
+                <td>
+                    <input required name="city-start" class="large" type="text" placeholder="Stadt eingeben...">
+                </td>
+            </tr>
+            <tr>
+                <td><b>Bis:</b></td>
+                <td>
+                    <input required name="city-end" class="large" type="text" placeholder="Stadt eingeben...">
+                </td>
+            </tr>
+            <tr>
+                <td><b>Maximale Kapazität:</b></td>
+                <td>
+                    <input required name="drive-capacity" class="small" type="number" min="1" max="10" value="1">
+                </td>
+            </tr>
+            <tr>
+                <td><b>Fahrtkosten:</b></td>
+                <td>
+                    <input required name="drive-prize" class="small" type="number" min="0" placeholder="Betrag" step="1">
+                    <p class="euro">€</p>
+                </td>
+            </tr>
+            <tr>
+                <td><b>Transportmittel:</b></td>
+                <td>
+                    <input type="radio" name="cartype" id="car" value="car" checked>
+                    <label for="car">Auto</label>
 
-                <input type="radio" name="cartype" id="bus" value="bus">
-                <label for="bus">Bus</label>
+                    <input type="radio" name="cartype" id="bus" value="bus">
+                    <label for="bus">Bus</label>
 
-                <input type="radio" name="cartype" id="transporter" value="transporter">
-                <label for="transporter">Kleintransporter</label>
-            </td>
-        </tr>
-        <tr>
-            <td><b>Fahrtdatum:</b></td>
-            <td>
-                <input required type="date" id="date" name="trip-date" placeholder="0000-00-00" max="2023-01-01">
-  
-             
-  	<!--			<input required type="date" id="date" name="trip-date" pattern="(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))">
-  	  --> 
-  	  			<p>Datum</p>
+                    <input type="radio" name="cartype" id="transporter" value="transporter">
+                    <label for="transporter">Kleintransporter</label>
+                </td>
+            </tr>
+            <tr>
+                <td><b>Fahrtdatum:</b></td>
+                <td>
+                    <input required type="date" name="drive-date" name="trip-date" placeholder="0000-00-00" max="2023-01-01">
 
-                <select name="time" id="time">
-                    <option value="00:00">00:00</option>
-                    <option value="01:00">01:00</option>
-                    <option value="02:00">02:00</option>
-                    <option value="03:00">03:00</option>
-                    <option value="04:00">04:00</option>
-                    <option value="05:00">05:00</option>
-                    <option value="06:00">06:00</option>
-                    <option value="07:00">07:00</option>
-                    <option value="08:00">08:00</option>
-                    <option value="09:00">09:00</option>
-                    <option value="10:00">10:00</option>
-                    <option value="11:00">11:00</option>
-                    <option value="12:00">12:00</option>
-                    <option value="13:00">13:00</option>
-                    <option value="14:00">14:00</option>
-                    <option value="15:00">15:00</option>
-                    <option value="16:00">16:00</option>
-                    <option value="17:00">17:00</option>
-                    <option value="18:00">18:00</option>
-                    <option value="19:00">19:00</option>
-                    <option value="20:00">20:00</option>
-                    <option value="21:00">21:00</option>
-                    <option value="22:00">22:00</option>
-                    <option value="23:00">23:00</option>
-                </select>
-                <p>Uhrzeit</p>
-            </td>
-        </tr>
-        <tr>
-            <td><b>Beschreibung:</b></td>
-            <td>
-                <textarea></textarea>
-            </td>
-        </tr>
 
-        <tr>
-            <td></td>
-            <td>
-                <button>Erstellen</button>
-            </td>
-        </tr>
-    </table>
+                    <!--<input required type="date" id="date" name="trip-date" pattern="(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))">-->
+                    <p>Datum</p>
+
+                    <select name="drive-time" id="drive-time">
+                        <option value="00:00">00:00</option>
+                        <option value="01:00">01:00</option>
+                        <option value="02:00">02:00</option>
+                        <option value="03:00">03:00</option>
+                        <option value="04:00">04:00</option>
+                        <option value="05:00">05:00</option>
+                        <option value="06:00">06:00</option>
+                        <option value="07:00">07:00</option>
+                        <option value="08:00">08:00</option>
+                        <option value="09:00">09:00</option>
+                        <option value="10:00">10:00</option>
+                        <option value="11:00">11:00</option>
+                        <option value="12:00">12:00</option>
+                        <option value="13:00">13:00</option>
+                        <option value="14:00">14:00</option>
+                        <option value="15:00">15:00</option>
+                        <option value="16:00">16:00</option>
+                        <option value="17:00">17:00</option>
+                        <option value="18:00">18:00</option>
+                        <option value="19:00">19:00</option>
+                        <option value="20:00">20:00</option>
+                        <option value="21:00">21:00</option>
+                        <option value="22:00">22:00</option>
+                        <option value="23:00">23:00</option>
+                    </select>
+                    <p>Uhrzeit</p>
+                </td>
+            </tr>
+            <tr>
+                <td><b>Beschreibung:</b></td>
+                <td>
+                    <textarea name="drive-description"></textarea>
+                </td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td>
+                    <button type="submit">Erstellen<button>
+                </td>
+            </tr>
+        </table>
+    </form>
 </body>
 </html>
