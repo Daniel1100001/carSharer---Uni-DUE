@@ -14,19 +14,19 @@ public final class Drive {
 	private java.sql.Time fahrtZeit;
 	private java.sql.Date fahrtDatum;
 	private java.sql.Timestamp fahrtDatumZeit;
-	private String fahrtZeitString = fahrtZeit.toString();
-	private String fahrtDatumString = fahrtDatum.toString();
+	private String fahrtZeitString;
+	private String fahrtDatumString;
 	private short maxPlaetze;
 	private java.math.BigDecimal fahrtkosten;
 	private String status;
 	private short anbieter;
 	private short transportmittel;
-	private Clob beschreibung;
+	private String beschreibung;
 
 	public Drive() {
 	}
 
-	public Drive(String startOrt, String zielOrt, java.sql.Timestamp fahrtDatumZeit, short maxPlaetze, java.math.BigDecimal fahrtkosten, String status, short anbieter, short transportmittel, Clob beschreibung) {
+	public Drive(String startOrt, String zielOrt, java.sql.Timestamp fahrtDatumZeit, short maxPlaetze, java.math.BigDecimal fahrtkosten, String status, short anbieter, short transportmittel, String beschreibung) {
 		this.fahrtDatumZeit = fahrtDatumZeit;
 		this.startOrt = startOrt;
 		this.zielOrt = zielOrt;
@@ -39,7 +39,7 @@ public final class Drive {
 	}
 	
 
-	public Drive(String startOrt, String zielOrt, java.sql.Timestamp fahrtDatumZeit, short maxPlaetze, java.math.BigDecimal fahrtkosten, String status, short anbieter, short transportmittel, Clob beschreibung,short fid) {
+	public Drive(String startOrt, String zielOrt, java.sql.Timestamp fahrtDatumZeit, short maxPlaetze, java.math.BigDecimal fahrtkosten, String status, short anbieter, short transportmittel, String beschreibung,short fid) {
 		this.fahrtDatumZeit = fahrtDatumZeit;
 		this.startOrt = startOrt;
 		this.zielOrt = zielOrt;
@@ -62,7 +62,7 @@ public final class Drive {
 	public String getStatusFahrt() { return status; }
 	public short getAnbieter() { return anbieter; }
 	public short getTransportmittel() { return transportmittel; }
-	public Clob getBeschreibung() { return beschreibung; }
+	public String getBeschreibung() { return beschreibung; }
 	public String getfahrtZeitString() { return fahrtZeitString; }
 	public String getfahrtDatumString() { return fahrtDatumString ; }
 }

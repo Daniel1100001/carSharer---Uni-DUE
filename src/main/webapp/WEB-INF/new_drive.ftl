@@ -171,10 +171,10 @@
             <tr>
                 <td><b>Fahrtdatum:</b></td>
                 <td>
-                    <input required type="date" name="drive-date" name="trip-date" placeholder="0000-00-00" max="2023-01-01">
+                    <input required type="date" name="drive-date"  placeholder="0000-00-00" max="2023-01-01">
 
 
-                    <!--<input required type="date" id="date" name="trip-date" pattern="(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))">-->
+                    <!--<input required type="date" name="trip-date" pattern="(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))">-->
                     <p>Datum</p>
 
                     <select name="drive-time" id="drive-time">
@@ -216,7 +216,7 @@
             <tr>
                 <td></td>
                 <td>
-                    <button type="submit">Erstellen<button>
+                    <button type="submit" value="Erstellen" >Erstellen<button>
                 </td>
             </tr>
         </table>

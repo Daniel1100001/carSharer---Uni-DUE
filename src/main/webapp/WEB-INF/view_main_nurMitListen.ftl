@@ -112,45 +112,22 @@
     <h1>carSharer</h1>
 
     <div class="content">
-        <div class="drives-list reserveddrives">
+        <div class="drives-list drives">
             <h2>Meine reservierten Fahrten</h2>
 				
-          <#if (reserveddrives?size > 0)>
-                <div class="drives-list-inner">
-                    <#list reserveddrives as drive>
-                        <div class="drive-card">
-                            <form action="view_drive" method="GET" id="reservedDrive-details">
-  							<button type="submit" name = "viewdrive" value ="pressed" form="reservedDrive-details">
-    						<img>
- 							 </button>
-							</form>
-                            <div class="card-row">
-                                <b>Von:</b>
-                                <p>${drive.startOrt}</p>
-                            </div>
-                            <div class="card-row">
-                                <b>Bis:</b>
-                                <p>${drive.zielOrt}</p>
-                            </div>
-                            <div class="card-row">
-                                <b>Status:</b>
-                                <p>${drive.status}</p>
-                            </div>
-                        </div>
-                    </#list>
-                </div>
-            </#if>
-            <#if (reserveddrives?size = 0)>
-                <div class="placeholder">
-                    <p>Keine Fahrten reserviert.</p>
-                </div>
-            </#if>
-        </div>
+				 <table class="datatable">
+    				<tr>
+        				<th>Von:</th>  <th>Bis:</th> <th>Status:</th>
+    				</tr>
+    				<#list drives as drive>
+    				<tr>
+        				<td>${drive.startOrt}</td> <td>${drive.zielOrt}</td> <td>${drive.status}</td>
+    				</tr>
+    				</#list>
+ 				 </table>
 
 
-
-
-        <div class="drives-list opendrives">
+        <div class="drives-list open-drives">
             <h2>Offene Fahrten</h2>
 
             <div class="placeholder">

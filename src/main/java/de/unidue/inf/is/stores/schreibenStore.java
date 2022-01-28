@@ -38,7 +38,7 @@ import de.unidue.inf.is.domain.User;
 	    public void schreiben(Drive driveToRate, User user, Bewertung bewertung) throws StoreException {
 	        try {
 	            PreparedStatement preparedStatement = connection.prepareStatement(""
-	            		+ "insert into schreiben (benutzer, fahrt, bewertung )"
+	            		+ "insert into  dbp187.schreiben (benutzer, fahrt, bewertung )"
 	            		+ " values (?, ?, ?);");
 	            preparedStatement.setShort(1, user.getBid());
 	            preparedStatement.setShort(2, driveToRate.getFid());

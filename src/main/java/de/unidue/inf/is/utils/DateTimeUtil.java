@@ -50,7 +50,7 @@ public class DateTimeUtil {
     public static String convertDateAndTimeToDB2DateTime(String dateStr, String timeStr) {
         String datetimeStr = null;
         try {
-            Date parsedDate = new SimpleDateFormat("dd.MM.yyyy").parse(dateStr);
+            Date parsedDate = new SimpleDateFormat("dd-MM-yyyy").parse(dateStr);
             Date parsedTime = new SimpleDateFormat("HH:mm").parse(timeStr);
             datetimeStr = new SimpleDateFormat("yyyy-MM-dd").format(parsedDate) + " " + new SimpleDateFormat("HH:mm:ss.SSSSSS").format(parsedTime);
         } catch (ParseException e) {
@@ -58,11 +58,19 @@ public class DateTimeUtil {
         }
         return datetimeStr;
     }
-/*
-    public static Timestamp connectDateTime (Time fahrtZeit, Date fahrtDate) ) {
-    	return Timestamp.of(fahrtDate,fahrtZeit);
+
+    public static Date connectDateTimeToDate (String dateTimeString)  {
+    	Date parsedDateTime = null;
+		try {
+			parsedDateTime = new SimpleDateFormat(DB2_DATE_FORMAT).parse(dateTimeString);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    	return parsedDateTime;
     }
-*/    
+    
     
     
     public static void main(String[] args) {

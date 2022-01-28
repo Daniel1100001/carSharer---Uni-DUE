@@ -38,7 +38,7 @@ public final class FahrerlaubnisStore implements Closeable {
     public void addFahrerlaubnis(Fahrerlaubnis fahrerlaubnisToAdd, User user) throws StoreException {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(""
-            		+ "insert into Fahrerlaubnis(fahrer, ablauffatum)"
+            		+ "insert into  dbp187.Fahrerlaubnis(fahrer, ablauffatum)"
             		+ " values (?, ?);");
             preparedStatement.setShort(1, user.getBid());
             preparedStatement.setTimestamp(2, fahrerlaubnisToAdd.getAblaufdatum());

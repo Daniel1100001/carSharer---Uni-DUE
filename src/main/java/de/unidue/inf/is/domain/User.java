@@ -3,9 +3,10 @@ package de.unidue.inf.is.domain;
 public final class User {
     private String name ;
     private String email;
-    private Short bid;
+    private short bid;
     public User(short bid, String name, String email) {
-        this.name = name;
+        this.bid = bid;
+    	this.name = name;
         this.email = email;
     }
 

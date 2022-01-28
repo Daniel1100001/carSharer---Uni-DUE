@@ -37,7 +37,7 @@ import de.unidue.inf.is.domain.User;
 	    public void reservieren(Drive driveToReserve, User user, short anzPlaetze) throws StoreException {
 	        try {
 	            PreparedStatement preparedStatement = connection.prepareStatement(""
-	            		+ "insert into reservieren (kunde, fahrt, anzPlaetze )"
+	            		+ "insert into  dbp187.reservieren (kunde, fahrt, anzPlaetze )"
 	            		+ " values (?, ?, ?);");
 	            preparedStatement.setShort(1, user.getBid());
 	            preparedStatement.setShort(2, driveToReserve.getFid());

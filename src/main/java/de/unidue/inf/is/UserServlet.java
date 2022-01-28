@@ -29,6 +29,7 @@ public final class UserServlet extends HttpServlet {
         try (UserStore userStore = new UserStore()) {
             userStore.addUser(userToAdd);
             // userStore.somethingElse();
+            
             userStore.complete();
         }
 

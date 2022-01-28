@@ -35,7 +35,7 @@ import de.unidue.inf.is.domain.Transportmittel;
 	    public void addTransportmittel(Transportmittel transportmittelToAdd) throws StoreException {
 	        try {
 	            PreparedStatement preparedStatement = connection.prepareStatement(""
-	            		+ "insert into transportmittel (name, icon)"
+	            		+ "insert into  dbp187.transportmittel (name, icon)"
 	            		+ " values (?, ?);");
 	            preparedStatement.setString(1, transportmittelToAdd.getname());
 	            preparedStatement.setString(2, transportmittelToAdd.getStringicon());

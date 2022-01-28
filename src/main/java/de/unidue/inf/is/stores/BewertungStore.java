@@ -36,7 +36,7 @@ public final class BewertungStore implements Closeable {
     public void addBewertung(Bewertung bewertungToAdd) throws StoreException {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(""
-            		+ "insert into Bewertung (textnachricht, erstellungsdatum, rating)"
+            		+ "insert into dbp187.bewertung (textnachricht, erstellungsdatum, rating)"
             		+ " values (?, ?, ?);");
             preparedStatement.setString(1, bewertungToAdd.gettextnachricht());
             preparedStatement.setTimestamp(2, bewertungToAdd.geterstellungsdatum());
