@@ -11,7 +11,9 @@ import com.ibm.db2.jcc.a.e;
 import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import de.unidue.inf.is.utils.DBUtil;
 import de.unidue.inf.is.domain.Drive;
@@ -58,8 +60,22 @@ public final class HomepageServlet extends HttpServlet {
     	DriveRead driveRead = new DriveRead();
     	try {
     		//request.setAttribute("drive.startort", driveRead.getDriveOffen(dummyUser) );
-			request.setAttribute("opendrives", driveRead.getDriveOffen(dummyUser) );
-			request.setAttribute("reserveddrives", driveRead.getDriveReserviert(dummyUser));
+			
+    		
+    		Map<String, Object> templateData = new HashMap<>();
+    		List<Drive> resevedDrives = driveRead.getDriveReserviert(dummyUser);
+    		List<Drive> openDrives = driveRead.getDriveOffen(dummyUser);
+    		if (resevedDrives.size() > 0) {
+    			templateData.put("reserveddrives", resevedDrives);
+    		}
+    		else {
+				templateData.put("reserveddriveslenght", 0);
+			}
+    		if (openDrives.size() > 0)
+    			templateData.put("opendrives", openDrives );
+    		else {
+				templateData.put("opendriveslenght", 0);
+			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -76,16 +92,16 @@ public final class HomepageServlet extends HttpServlet {
 //        	 request.getRequestDispatcher("/view_drives.ftl").forward(request, response);
 //    	}
 
-        if (request.getParameter("viewdrive"/*"picture/buttom pressed*/) = "pressed" ) {
-        	request.getRequestDispatcher("/view_drives.ftl").forward(request, response);
-        	response.sendRedirect("/view_drive");
-        }
- //eigentlich nicht notwendig, da                <a href="new_drive">Fahrt erstellen</a> im template steht
-//    	else if(request.getParameter(/*"Neue Fahrt buttom pressed*/)){
-//    			response.sendRedirect("/new_drive");
-//		}
-    	else {
+//        if (request.getParameter("viewdrive"/*"picture/buttom pressed*/) = "pressed" ) {
+//        	request.getRequestDispatcher("/view_drives.ftl").forward(request, response);
+//        	response.sendRedirect("/view_drive");
+//        }
+// //eigentlich nicht notwendig, da                <a href="new_drive">Fahrt erstellen</a> im template steht
+////    	else if(request.getParameter(/*"Neue Fahrt buttom pressed*/)){
+////    			response.sendRedirect("/new_drive");
+////		}
+//    	else {
         doGet(request, response);
-    	}
+//    	}
     }
 }

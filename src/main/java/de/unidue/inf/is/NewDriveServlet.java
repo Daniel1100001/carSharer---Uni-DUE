@@ -5,12 +5,15 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.net.ntp.TimeStamp;
 
 import de.unidue.inf.is.domain.Drive;
 import de.unidue.inf.is.domain.User;
@@ -48,9 +51,19 @@ public final class NewDriveServlet extends HttpServlet {
     	String fahrtDatumZeitString =   fahrtDatumString +" "+ fahrtZeitString+":00.000000";
     	java.util.Date fahrtDatumZeit = DateTimeUtil.connectDateTimeToDate(fahrtDatumZeitString);
     	Timestamp fahrtDatumZeitTimestamp = new Timestamp(fahrtDatumZeit.getTime());
+
+// Für den Fall, dass man ein in der Vergangenheit liegendes Datum nicht im template abfangen kann    	
+//		Date date = new Date();
+//    	if (fahrtDatumZeit.before(date) ) {
+//            response.sendRedirect("/view_falschesDatum");
+//		}
+    	
+    	
+    	
+    	
 //test der Timpstamp convertierung 
-    	String timestampString = DateTimeUtil.convertDateAndTimeToDB2DateTime(fahrtDatumString, fahrtZeitString);
-       	Timestamp fahrtDatumZeitTimestamp2 = Timestamp.valueOf(timestampString);
+//    	String timestampString = DateTimeUtil.convertDateAndTimeToDB2DateTime(fahrtDatumString, fahrtZeitString);
+//       	Timestamp fahrtDatumZeitTimestamp2 = Timestamp.valueOf(timestampString);
     	
     	short maxPlaetze = Short.parseShort(request.getParameter("drive-capacity"));
         // oder

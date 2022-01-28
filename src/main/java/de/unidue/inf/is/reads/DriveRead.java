@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.ibm.db2.jcc.DB2Administrator;
-
+import com.ibm.db2.jcc.sqlj.n;
 
 import de.unidue.inf.is.utils.DBUtil;
 import de.unidue.inf.is.utils.DateTimeUtil;
@@ -38,11 +38,8 @@ import de.unidue.inf.is.stores.StoreException;
 	    
         public List<Drive> getDriveOffen(User user) throws Exception {
             try {
-                Connection con = DBUtil.getConnection();
-                con.setAutoCommit(false);
-                
-                PreparedStatement statement = con.prepareStatement("SELECT * FROM dbp187.drive WHERE fid != (SELECT fid FROM reservieren WHERE kunde = ?) "
-                		+ "AND status = 'offen' ;");
+                PreparedStatement statement = connection.prepareStatement("SELECT * FROM dbp187.fahrt WHERE fid != (SELECT fid FROM dbp187.reservieren WHERE kunde = ?) "
+                		+ "AND status = 'offen'");
                 statement.setShort(1, user.getBid());
             	List<Drive> driveList = new ArrayList<>();
                 ResultSet result = statement.executeQuery();
@@ -70,11 +67,9 @@ import de.unidue.inf.is.stores.StoreException;
         
         public List<Drive> getDriveReserviert(User user) throws Exception {
             try {
-                Connection con = DBUtil.getConnection();
-                con.setAutoCommit(false);
-                
-                PreparedStatement statement = con.prepareStatement("SELECT * FROM dbp187.drive WHERE fid = (SELECT fid FROM reservieren WHERE kunde = ?) "
-                		+ "AND status = 'offen' ;");
+
+                PreparedStatement statement = connection.prepareStatement("SELECT * FROM dbp187.fahrt  WHERE fid = (SELECT fid FROM dbp187.reservieren WHERE kunde = ?) "
+                		+ "AND status = 'offen'");
                 statement.setShort(1, user.getBid());
             	List<Drive> driveList = new ArrayList<>();
                 ResultSet result = statement.executeQuery();
@@ -100,20 +95,20 @@ import de.unidue.inf.is.stores.StoreException;
             }
         }
 // Methode die eigentlich nicht benötigt wird
-	public Drive getDrive(Drive drive) throws Exception {
+	public Drive getDrive(Short fid) throws Exception {
         try {
-            Connection con = DBUtil.getConnection();
-            con.setAutoCommit(false);
-            
-            PreparedStatement statement = con.prepareStatement("SELECT * FROM dbp187.drive WHERE fid = ? ;");
-            statement.setShort(1, drive.getFid());
+        	System.out.print(DBUtil.checkDatabaseExistsExternal());
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM dbp187.fahrt WHERE fid = ? ");
+            statement.setShort(1, fid);
 
         	
             ResultSet result = statement.executeQuery();
-            Drive driveToView = new Drive(
+            Drive driveToView = null;
+            while (result.next()) {
+            		driveToView = new Drive(
             		result.getString("startort"),
         			result.getString("zielort"),
-        			result.getTimestamp("fahrtDatumZeit"),
+        			result.getTimestamp("fahrtdatumZeit"),
         			result.getShort("maxPlaetze"),
         			result.getBigDecimal("fahrtkosten"),
         			result.getString("status"),
@@ -121,8 +116,8 @@ import de.unidue.inf.is.stores.StoreException;
         			result.getShort("transportmittel"),
         			result.getString("beschreibung"),
         			result.getShort("fid"));
-            
-
+            		
+            }
             return driveToView;
         }
         catch (SQLException e) {
@@ -151,7 +146,7 @@ import de.unidue.inf.is.stores.StoreException;
 	            finally {
 	                try {
 	                    connection.close();
-	                    System.out.print("Daten in Datenbank geschrieben");
+	                    System.out.print("Aus Datenbank gelesen");
 	                }
 	                catch (SQLException e) {
 	                    throw new StoreException(e);

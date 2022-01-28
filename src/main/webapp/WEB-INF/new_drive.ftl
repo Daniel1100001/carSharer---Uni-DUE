@@ -171,7 +171,7 @@
             <tr>
                 <td><b>Fahrtdatum:</b></td>
                 <td>
-                    <input required type="date" name="drive-date"  placeholder="0000-00-00" max="2023-01-01">
+                    <input required type="date" name="drive-date"  placeholder="0000-00-00" min="2022-02-02" "max="2023-01-01">
 
 
                     <!--<input required type="date" name="trip-date" pattern="(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))">-->
@@ -209,7 +209,7 @@
             <tr>
                 <td><b>Beschreibung:</b></td>
                 <td>
-                    <textarea name="drive-description"></textarea>
+                    <textarea maxlength = "50" name="drive-description"></textarea>
                 </td>
             </tr>
 

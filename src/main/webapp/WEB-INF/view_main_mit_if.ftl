@@ -115,7 +115,7 @@
         <div class="drives-list reserveddrives">
             <h2>Meine reservierten Fahrten</h2>
 				
-
+<!          <#if  reserveddrives?size gt 0>-->
                 <div class="drives-list-inner">
                     <#list reserveddrives as drive>
                         <div class="drive-card">
@@ -142,7 +142,7 @@
                     </#list>
                 </div>
                 
-
+<!            </#if>-->
                 <div class="placeholder">
                     <p>Keine Fahrten reserviert.</p>
                 </div>
@@ -154,7 +154,7 @@
         <div class="drives-list opendrives">
 
             <h2>Offene Fahrten</h2>
-
+<!          <#if opendrives?size gt 0> -->
                 <div class="drives-list-inner">
                     <#list opendrives as drive>
                         <div class="drive-card">
@@ -180,7 +180,7 @@
                         </div>
                     </#list>
                 </div>
-
+<!            </#if>-->
             <div class="placeholder">
                 <p>Keine Fahrten offen.</p>
             </div>
