@@ -39,18 +39,20 @@ import de.unidue.inf.is.stores.StoreException;
         public List<Bewertung> getBewertung(Short fid) throws Exception {
             try {                
                 PreparedStatement statement = connection.prepareStatement(""
-                		+ "SELECT textnachricht,"
+                		+ "SELECT "
+                		+ " textnachricht,"
                 		+ " erstellungsdatum,"
                 		+ " rating,"
-                		+ " email"
+                		+ " email,"
+                		+ " beid"
                 		+ "  FROM dbp187.bewertung b,"
                 		+ " dbp187.schreiben s,"
                 		+ " dbp187.fahrt f,"
-                		+ "dbp187.benutzer bn"
+                		+ " dbp187.benutzer bn"
                 		+ " WHERE f.fid = ?"
                 		+ " AND f.fid = s.fahrt"
                 		+ " AND s.bewertung = b.beid"
-                		+ " AND f.anbieter = bn.bid"
+                		+ " AND s.benutzer = bn.bid"
                 		+ " ORDER BY erstellungsdatum");              		
 //                + "SELECT (textnachricht,erstellungsdatum, rating, email, )  FROM dbp187.bewertung b,schreiben s, fahrt f WHERE f.fid = ? AND f.fid = s.fid AND s.beid = b.beid ORDER BY erstellungsdatum");
                 
@@ -58,25 +60,19 @@ import de.unidue.inf.is.stores.StoreException;
             	List<Bewertung> bewertungList = new ArrayList<>();
                 ResultSet result = statement.executeQuery();
                 while(result.next()) {
-                	if (result.getClob("textnachricht") != null) {
                 	Bewertung bewertung = new Bewertung(
-                			Bewertung.getClobString(result.getClob("textnachricht")),
+                			(result.getClob("textnachricht") != null) ? DriveRead.getClobString(result.getClob("textnachricht")) :"Keine Beschreibung gefunden",
                 			result.getShort("rating"),
                 			result.getShort("beid"),
                 			result.getString("email")
+
                 			);
+        			System.out.println("Text: "+ bewertung.gettextnachricht()+"\n"
+        								+"Rating: "+bewertung.getrating()+"\n"
+        								+"Beid: "+ bewertung.getBeid()+"\n"
+        								+"Email: "+ bewertung.getemail()+"\n");
                 	bewertungList.add(bewertung);
                 	}
-                	else {
-                           	Bewertung bewertung = new Bewertung(
-                			"Kein Bewertungstext gefunden",
-                			result.getShort("rating"),
-                			result.getShort("beid"),
-                			result.getString("email")
-                        			);
-                        	bewertungList.add(bewertung);
-					}
-                }
                 return bewertungList;
             }
             catch (SQLException e) {

@@ -4,6 +4,7 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import de.unidue.inf.is.domain.Drive;
@@ -28,20 +29,45 @@ public final class DriveDelete implements Closeable {
     }
 
 
-    public  void deleteFahrt(Drive driveToDelete, User user) throws StoreException {
+    public  void deleteFahrt(Short fid) throws StoreException {
         try {
         	System.out.print(DBUtil.checkDatabaseExistsExternal());
-            PreparedStatement preparedStatement = connection.prepareStatement(""
-            		+ "DELETE FROM fahrt WHERE fid = ?;"
-            		+ "DELETE FROM reservieren WHERE fid = ?;"
-            		+ "DELETE FROM bewertung WHERE beid = SELECT beid FROM schreiben WHERE fid = ? ;"
-            		+ "DELETE FROM schreiben WHERE fid = ? ;");
-           	System.out.println("\n\nhier kommt das prest\n\n "+preparedStatement);
-            preparedStatement.setShort(1, driveToDelete.getFid());
-            preparedStatement.setShort(2, driveToDelete.getFid());
-            preparedStatement.setShort(3, driveToDelete.getFid());
-            preparedStatement.setShort(4, driveToDelete.getFid());
+ //       	preparedBatc preparedBatch = connection.();
+            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM dbp187.fahrt WHERE fid = ? ");
+            preparedStatement.setShort(1, fid);
             preparedStatement.executeUpdate();
+            System.out.println("Daten aus Fahrt gelöscht.\n");
+            
+//            PreparedStatement preparedStatement2 = connection.prepareStatement("DELETE FROM dbp187.reservieren WHERE fahrt = ?");
+//            preparedStatement2.setShort(1, fid);
+//            preparedStatement2.executeUpdate();
+//            System.out.println("Daten aus reservieren gelöscht.\n");
+//            
+//            PreparedStatement preparedStatement31 = connection.prepareStatement("SELECT dbp187.bewertung FROM schreiben WHERE fahrt = ?");
+//            preparedStatement31.setShort(1, fid);
+//            ResultSet resultSet = preparedStatement31.executeQuery();
+//            System.out.println("Daten aus bewertrungen gelesen.");
+//            PreparedStatement preparedStatement3 = connection.prepareStatement("DELETE FROM dbp187.bewertung WHERE beid = ?");
+//            while (resultSet.next()) {
+//            	preparedStatement3.setShort(1, resultSet.getShort("beid"));
+//            	preparedStatement3.addBatch();
+//			}
+//            preparedStatement3.executeUpdate();
+//            System.out.println("Daten aus Bewertungen gelöscht.");
+//            
+//            PreparedStatement preparedStatement4 = connection.prepareStatement("DELETE FROM dbp187.schreiben WHERE fahrt = ?");
+//            preparedStatement4.setShort(1, fid);
+//            preparedStatement4.executeUpdate();
+
+            
+
+//            preparedBatch.addBatch(preparedStatement.toString());
+//            preparedBatch.addBatch(preparedStatement2.toString());
+//            preparedBatch.addBatch(preparedStatement3.toString());
+//            preparedBatch.addBatch(preparedStatement4.toString());
+//            preparedBatch.executeBatch();
+
+            System.out.println("\n Fahrt wurde in Tabelle fahrt gelöscht");
         }
         catch (SQLException e) {
             throw new StoreException(e);

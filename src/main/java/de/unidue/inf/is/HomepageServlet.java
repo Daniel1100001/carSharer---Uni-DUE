@@ -1,10 +1,13 @@
 package de.unidue.inf.is;
 
+import javax.print.attribute.standard.Fidelity;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane.IconifyAction;
+
+import org.apache.commons.io.input.ReaderInputStream;
 
 import com.ibm.db2.jcc.a.e;
 
@@ -18,9 +21,13 @@ import java.util.List;
 import java.util.Map;
 
 import de.unidue.inf.is.utils.DBUtil;
+import de.unidue.inf.is.deletes.DriveDelete;
 import de.unidue.inf.is.domain.Drive;
 import de.unidue.inf.is.domain.User;
 import de.unidue.inf.is.reads.DriveRead;
+import de.unidue.inf.is.stores.ReservierenStore;
+import de.unidue.inf.is.stores.StoreException;
+import de.unidue.inf.is.stores.ReservierenStore;
 
 
 public final class HomepageServlet extends HttpServlet {
@@ -112,11 +119,42 @@ public final class HomepageServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//    	if ( request.getParameter("drive") != null) {
-//        	driveWantToView  = (Drive) request.getAttribute("drive");
-//        	 request.getRequestDispatcher("/view_drives.ftl").forward(request, response);
-//    	}
+    	
+    	
+		System.out.println("\n" + request.getParameter("driveFid")+"\n"+request.getParameter("zuResP")+"\n"+request.getParameter("fahrtreservieren")+"\n"+request.getParameter("fahrtlöschen"));
+    	
+    	if ( request.getParameter("driveFid") != null && request.getParameter("zuResP")!= null && request.getParameter("fahrtreservieren").equals("fahrtreservieren") ) {
+    		
+    		Short fid = Short.parseShort(request.getParameter("driveFid"));
+    		System.out.println("\n Fid die zu resevieren ist: "+fid);
+    		Short zuResPShort = Short.parseShort(request.getParameter("zuResP"));
+    		ReservierenStore reservierenStore = new ReservierenStore();
+    		reservierenStore.reservieren(fid, dummyUser, zuResPShort );
+    		reservierenStore.complete();
+    		reservierenStore.close();
 
+    		doGet(request, response);
+    	}
+    	if  ( request.getParameter("driveFid") != null && request.getParameter("fahrtlöschen").equals("fahrtlöschen" ) ) {
+    		Short fid = Short.parseShort(request.getParameter("driveFid"));
+    		System.out.println("\n Fid die zu löschen ist "+fid);
+    		try (DriveDelete driveDelete = new DriveDelete()) {
+				driveDelete.deleteFahrt(fid);
+				driveDelete.complete();
+				driveDelete.close();
+			} catch (StoreException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    		
+    		doGet(request, response);
+
+    	}
+    	else {
+    		doGet(request, response);
+    	}
+    	
+    		
 //        if (request.getParameter("viewdrive"/*"picture/buttom pressed*/) = "pressed" ) {
 //        	request.getRequestDispatcher("/view_drives.ftl").forward(request, response);
 //        	response.sendRedirect("/view_drive");
@@ -134,7 +172,7 @@ public final class HomepageServlet extends HttpServlet {
 //        	response.sendRedirect("new_drive");
 //        }
 //      else {
-        	doGet(request, response);
+        	
             //request.getRequestDispatcher("/view_main.ftl").forward(request, response);
 //		}
 

@@ -203,7 +203,7 @@
                 </tr>
                 <tr>
                     <td>Anzahl freier Plätze:</td>
-                    <td><#assign x="freiePlaetze"></td>
+                    <td>${freiePlaetze}</td>
                 </tr>
                 <tr>
                     <td>Fahrtkosten:</td>
@@ -227,31 +227,37 @@
                 <tr>
                     <td>
                         Anzahl Plätze für Reservierung:
-                        <input type="number" min="1" max="10" value="1">
+                        <form action="view_main" method="POST" id="fahrtreservieren">
+                    	<input type="hidden" name="driveFid" value="${driveToView.fid}">
+                        <input type="number" name="zuResP" min="1" max="${freiePlaetze}" value="1">
                     </td>
-                    <td><button class="reserve" type="submit">Fahrt reservieren</button></td>
+                    <td><button class="reserve" type="submit" name="fahrtreservieren" form="fahrtreservieren" value="fahrtreservieren">Fahrt reservieren</button></td>
+                    </form>
                 </tr>
                 <tr>
                     <td></td>
-                    <td><button class="delete" type="submit">Fahrt löschen</button></td>
+                    <form action="view_main" method="POST" id="fahrtlöschen">
+                    <input type="hidden" name="driveFid" value="${driveToView.fid}">
+                    <td><button class="delete" type="submit" name="fahrtlöschen" form="fahrtlöschen" value="fahrtlöschen">Fahrt löschen</button></td>
+                    </form>
                 </tr>
             </table>
         </div>
-
-        <div class="details-ratings">
+            <div class="bewertungen-list reservedDrives">
             <h2>Bewertungen</h2>
-
-            <h3><b>Durchschnittsrating:</b> ${</h3>
+            <h3><b>Durchschnittsrating:</b> </h3>
             <table class="datatable">
-                <tr>
                 <#list bewertungen as bewertung>
 				<tr>
-				    <td>${berwertung.email}</td> <td>${bewertung.beschreibung}</td> <td>${bewertung.rating}</td>
+        			<th>Email</th>  <th>Beschreibung</th> <th>Rating</th>
+    			</tr>
+				<tr>
+				    <td>${bewertung.email}</td> <td>${bewertung.textnachricht}</td> <td>${bewertung.rating}</td>
 				</tr>
 				</#list>
-                </tr>
+                </tr> 
             </table>
-            <a class="rate" href="new_rating">Fahrt bewerten</a>
+            <button class="rate" type="submit">Fahrt bewerten</button></td>
         </div>
     </div>
 </body>

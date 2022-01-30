@@ -17,15 +17,15 @@ import de.unidue.inf.is.utils.DateTimeUtil;
 import de.unidue.inf.is.domain.Drive;
 import de.unidue.inf.is.domain.User;
 
-	public final class reservierenStore implements Closeable {
+	public final class ReservierenStore implements Closeable {
 
 	    private Connection connection;
 	    private boolean complete;
 
 
-	    public reservierenStore() throws StoreException {
+	    public ReservierenStore() throws StoreException {
 	        try {
-	            connection = DBUtil.getConnection();
+	            connection = DBUtil.getExternalConnection();
 	            connection.setAutoCommit(false);
 	        }
 	        catch (SQLException e) {
@@ -34,15 +34,16 @@ import de.unidue.inf.is.domain.User;
 	    }
 
 
-	    public void reservieren(Drive driveToReserve, User user, short anzPlaetze) throws StoreException {
+	    public void reservieren(short fid, User user, short anzPlaetze) throws StoreException {
 	        try {
 	            PreparedStatement preparedStatement = connection.prepareStatement(""
 	            		+ "insert into  dbp187.reservieren (kunde, fahrt, anzPlaetze )"
-	            		+ " values (?, ?, ?);");
+	            		+ " values (?, ?, ?)");
 	            preparedStatement.setShort(1, user.getBid());
-	            preparedStatement.setShort(2, driveToReserve.getFid());
+	            preparedStatement.setShort(2, fid);
 	            preparedStatement.setShort(3, anzPlaetze);
 	            preparedStatement.executeUpdate();
+	    		System.out.println("\n Fahrt ist reserviert");
 	        }
 	        catch (SQLException e) {
 	            throw new StoreException(e);

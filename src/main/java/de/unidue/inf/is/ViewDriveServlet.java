@@ -39,7 +39,7 @@ public final class ViewDriveServlet extends HttpServlet {
     	DriveRead driveRead = new DriveRead();
     	Drive driveToView = null;
 		try {
-			driveToView = driveRead.getDrive(fid);
+			driveToView = driveRead.getDriveWithBeschreibung(fid);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -54,7 +54,7 @@ public final class ViewDriveServlet extends HttpServlet {
 		System.out.println("Transpm    " + driveToView.getTransportmittel()+"\n");
 		System.out.println("Fahrtkosten:   : " + driveToView.getFahrtkosten()+"\n");
 		System.out.println("Timpstamp: "+ driveToView.getfahrtDatumZeit() +"\n");
-		System.out.printf("Beschreibugt:   ", driveToView.getBeschreibung() + "\n");
+		System.out.printf("Beschreibung:   ", driveToView.getBeschreibung() + "\n");
     	driveRead.complete();
     	driveRead.close();
 
@@ -139,6 +139,37 @@ public final class ViewDriveServlet extends HttpServlet {
 
     	request.setAttribute("driveToView", driveToView);
     	
+    	BewertungRead bewertungRead = new BewertungRead();
+    	String emailAnbieter = "Keine Email vorhanden";
+		try {
+			emailAnbieter = bewertungRead.getEmail(driveToView.getAnbieter());
+		} catch (Exception e) {
+		}
+    	bewertungRead.complete();
+    	bewertungRead.close();
+    	ReservierenRead reservierenRead = new ReservierenRead();
+    	Short anzahlReserviertePlaetze = -1;
+		try {
+			anzahlReserviertePlaetze = reservierenRead.getReserviertePlaetze(fid);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Short freiePlaetze = (short) (driveToView.getMaxPlaetze() - anzahlReserviertePlaetze) ;
+		;
+		request.setAttribute("emailAnbieter", emailAnbieter );
+    	request.setAttribute("freiePlaetze", freiePlaetze );
+    	reservierenRead.complete();
+    	reservierenRead.close();
+    	BewertungRead bewertungRead2 = new BewertungRead();
+    	
+    	try {
+			request.setAttribute("bewertungen", bewertungRead2.getBewertung(fid));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    	bewertungRead2.complete();
+    	bewertungRead2.close();
 
     	request.getRequestDispatcher("/view_drive.ftl").forward(request, response);
     }

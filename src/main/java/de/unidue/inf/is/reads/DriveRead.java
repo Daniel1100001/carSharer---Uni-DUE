@@ -1,6 +1,8 @@
 package de.unidue.inf.is.reads;
+import java.io.BufferedReader;
 import java.io.Closeable;
 import java.io.IOException;
+import java.sql.Clob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -114,7 +116,7 @@ import de.unidue.inf.is.stores.StoreException;
         			result.getString("status"),
         			result.getShort("anbieter"),
         			result.getShort("transportmittel"),
-        			result.getString("beschreibung"),
+        			getClobString(result.getClob("beschreibung")),
         			result.getShort("fid"));
             		
             }
@@ -124,6 +126,46 @@ import de.unidue.inf.is.stores.StoreException;
             throw new Exception(e);
         }
 	}
+	public Drive getDriveWithBeschreibung(Short fid) throws Exception {
+        try {
+        	System.out.print(DBUtil.checkDatabaseExistsExternal());
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM dbp187.fahrt WHERE fid = ? ");
+            statement.setShort(1, fid);
+
+        	
+            ResultSet result = statement.executeQuery();
+            Drive driveToView = new Drive();
+            while (result.next()) {
+            		driveToView = new Drive(
+            		result.getString("startort"),
+        			result.getString("zielort"),
+        			result.getTimestamp("fahrtdatumZeit"),
+        			result.getShort("maxPlaetze"),
+        			result.getBigDecimal("fahrtkosten"),
+        			result.getString("status"),
+        			result.getShort("anbieter"),
+        			result.getShort("transportmittel"),
+        			(result.getClob("beschreibung") != null) ?
+        						getClobString(result.getClob("beschreibung")) 
+        						: "Keine Beschreibung vorhanden.",
+        			result.getShort("fid"));
+            		
+            }
+            return driveToView;
+        }
+        catch (SQLException e) {
+            throw new Exception(e);
+        }
+	}
+	public static String getClobString(Clob clob) throws SQLException,IOException {
+		BufferedReader stringReader = new BufferedReader(clob.getCharacterStream());
+		String singleLine = null;
+		StringBuffer strBuff = new StringBuffer();
+		while ((singleLine = stringReader.readLine()) != null) {
+			strBuff.append(singleLine);
+		}
+		return strBuff.toString();
+}
     public void complete() {
 	    this.complete = true;
 	    }

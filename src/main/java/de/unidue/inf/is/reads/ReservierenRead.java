@@ -36,13 +36,13 @@ import de.unidue.inf.is.stores.StoreException;
 
         public Short getReserviertePlaetze(Short fid) throws Exception {
             try {
-                PreparedStatement statement = connection.prepareStatement("SELECT fahrt, sum(anzPlaetze)  FROM dbp187.reservieren WHERE fahrt = ? GROUP BY fahrt");
+                PreparedStatement statement = connection.prepareStatement("SELECT fahrt, sum(anzPlaetze) as sum FROM dbp187.reservieren WHERE fahrt = ? GROUP BY fahrt");
                 
                 statement.setShort(1, fid);
                 ResultSet result = statement.executeQuery();
                 Short anzPlaetze = -1;
                 while(result.next()) {
-                			anzPlaetze =result.getShort("anzPlaetze");
+                			anzPlaetze =(short) result.getInt("sum");
                 }
                 return anzPlaetze;
             }
