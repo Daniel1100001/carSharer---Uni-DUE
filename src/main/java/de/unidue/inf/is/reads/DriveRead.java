@@ -36,12 +36,12 @@ import de.unidue.inf.is.stores.StoreException;
 	    }
 
 	    
-        public List<Drive> getDriveOffen(User user) throws Exception {
+        public ArrayList<Drive> getDriveOffen(User user) throws Exception {
             try {
-                PreparedStatement statement = connection.prepareStatement("SELECT * FROM dbp187.fahrt WHERE fid != (SELECT fid FROM dbp187.reservieren WHERE kunde = ?) "
+                PreparedStatement statement = connection.prepareStatement("SELECT * FROM dbp187.fahrt WHERE fid not in (SELECT fahrt FROM dbp187.reservieren WHERE kunde = ?) "
                 		+ "AND status = 'offen'");
                 statement.setShort(1, user.getBid());
-            	List<Drive> driveList = new ArrayList<>();
+            	ArrayList<Drive> driveList = new ArrayList<>();
                 ResultSet result = statement.executeQuery();
                 while(result.next()) {
                 	Drive offenerDrive = new Drive(
@@ -65,13 +65,13 @@ import de.unidue.inf.is.stores.StoreException;
             }
         }
         
-        public List<Drive> getDriveReserviert(User user) throws Exception {
+        public ArrayList<Drive> getDriveReserviert(User user) throws Exception {
             try {
 
-                PreparedStatement statement = connection.prepareStatement("SELECT * FROM dbp187.fahrt  WHERE fid = (SELECT fid FROM dbp187.reservieren WHERE kunde = ?) "
+                PreparedStatement statement = connection.prepareStatement("SELECT * FROM dbp187.fahrt  WHERE fid in (SELECT fahrt FROM dbp187.reservieren WHERE kunde = ?) "
                 		+ "AND status = 'offen'");
                 statement.setShort(1, user.getBid());
-            	List<Drive> driveList = new ArrayList<>();
+            	ArrayList<Drive> driveList = new ArrayList<>();
                 ResultSet result = statement.executeQuery();
                 while(result.next()) {
                 	Drive offenerDrive = new Drive(
@@ -103,7 +103,7 @@ import de.unidue.inf.is.stores.StoreException;
 
         	
             ResultSet result = statement.executeQuery();
-            Drive driveToView = null;
+            Drive driveToView = new Drive();
             while (result.next()) {
             		driveToView = new Drive(
             		result.getString("startort"),

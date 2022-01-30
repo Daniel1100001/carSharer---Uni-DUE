@@ -9,8 +9,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.lang.model.element.NestingKind;
-
 import com.ibm.db2.jcc.DB2Administrator;
 
 
@@ -21,11 +19,11 @@ import de.unidue.inf.is.domain.Drive;
 import de.unidue.inf.is.domain.User;
 import de.unidue.inf.is.stores.StoreException;
 
-	public final class BewertungRead {
+	public final class ReservierenRead {
 
 	    private Connection connection;
 	    private boolean complete;
-	    public BewertungRead() throws StoreException {
+	    public ReservierenRead() throws StoreException {
 	        try {
 //	            connection = DBUtil.getConnection();
 	            connection = DBUtil.getExternalConnection();
@@ -36,48 +34,17 @@ import de.unidue.inf.is.stores.StoreException;
 	        }
 	    }
 
-        public List<Bewertung> getBewertung(Short fid) throws Exception {
-            try {                
-                PreparedStatement statement = connection.prepareStatement(""
-                		+ "SELECT textnachricht,"
-                		+ " erstellungsdatum,"
-                		+ " rating,"
-                		+ " email"
-                		+ "  FROM dbp187.bewertung b,"
-                		+ " dbp187.schreiben s,"
-                		+ " dbp187.fahrt f,"
-                		+ "dbp187.benutzer bn"
-                		+ " WHERE f.fid = ?"
-                		+ " AND f.fid = s.fahrt"
-                		+ " AND s.bewertung = b.beid"
-                		+ " AND f.anbieter = bn.bid"
-                		+ " ORDER BY erstellungsdatum");              		
-//                + "SELECT (textnachricht,erstellungsdatum, rating, email, )  FROM dbp187.bewertung b,schreiben s, fahrt f WHERE f.fid = ? AND f.fid = s.fid AND s.beid = b.beid ORDER BY erstellungsdatum");
+        public Short getReserviertePlaetze(Short fid) throws Exception {
+            try {
+                PreparedStatement statement = connection.prepareStatement("SELECT fahrt, sum(anzPlaetze)  FROM dbp187.reservieren WHERE fahrt = ? GROUP BY fahrt");
                 
                 statement.setShort(1, fid);
-            	List<Bewertung> bewertungList = new ArrayList<>();
                 ResultSet result = statement.executeQuery();
+                Short anzPlaetze = -1;
                 while(result.next()) {
-                	if (result.getClob("textnachricht") != null) {
-                	Bewertung bewertung = new Bewertung(
-                			Bewertung.getClobString(result.getClob("textnachricht")),
-                			result.getShort("rating"),
-                			result.getShort("beid"),
-                			result.getString("email")
-                			);
-                	bewertungList.add(bewertung);
-                	}
-                	else {
-                           	Bewertung bewertung = new Bewertung(
-                			"Kein Bewertungstext gefunden",
-                			result.getShort("rating"),
-                			result.getShort("beid"),
-                			result.getString("email")
-                        			);
-                        	bewertungList.add(bewertung);
-					}
+                			anzPlaetze =result.getShort("anzPlaetze");
                 }
-                return bewertungList;
+                return anzPlaetze;
             }
             catch (SQLException e) {
                 throw new Exception(e);
@@ -91,18 +58,15 @@ import de.unidue.inf.is.stores.StoreException;
                     statement.setShort(1, bid);
                 	//List<String> emailList = new ArrayList<>();
                     ResultSet result = statement.executeQuery();
-                    String email = "Keine Email vorhanden.";
-                    while (result.next()) {
-						email = result.getString("email");
-						
-					}
-                    //result.getString("email");
-                    
-                    return email;
+                    while(result.next()) {
+                    			return result.getString("email");
+                    	}
+                    ;
                 }
                 catch (SQLException e) {
                     throw new Exception(e);
                 }
+				return "Keine Email vorhander.";
 				
        
         }

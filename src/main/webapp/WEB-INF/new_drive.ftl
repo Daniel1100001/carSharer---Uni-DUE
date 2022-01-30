@@ -209,7 +209,7 @@
             <tr>
                 <td><b>Beschreibung:</b></td>
                 <td>
-                    <textarea maxlength = "50" name="drive-description"></textarea>
+                    <textarea maxlength="50" name="drive-description"></textarea>
                 </td>
             </tr>
 

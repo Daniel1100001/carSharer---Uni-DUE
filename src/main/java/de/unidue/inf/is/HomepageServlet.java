@@ -8,6 +8,8 @@ import javax.swing.plaf.basic.BasicInternalFrameTitlePane.IconifyAction;
 
 import com.ibm.db2.jcc.a.e;
 
+import java.awt.datatransfer.SystemFlavorMap;
+import java.awt.font.FontRenderContext;
 import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
@@ -25,13 +27,18 @@ public final class HomepageServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
-    private static List<Drive> driveList = new ArrayList<>();
     private static Drive driveWantToView ;
     private static User dummyUser = new User( (short) (1), "DummyUser", "dummy@dummy.com");
- 
+    //private static List<String> reservedDrives = new ArrayList<>();
     
-/*nicht notwendig weil keine Tabelle mit den Usern existiert
- *     private static List<User> getUsers(User user) throws Exception {
+    //static {
+    //    reservedDrives.add("Toyota");
+    //    reservedDrives.add("Mitsubishi");
+    //    reservedDrives.add("Honda");
+    //}
+    
+    /*nicht notwendig weil keine Tabelle mit den Usern existiert
+    *     private static List<User> getUsers(User user) throws Exception {
 
         try {
             Connection con = DBUtil.getConnection();
@@ -49,33 +56,51 @@ public final class HomepageServlet extends HttpServlet {
             throw new Exception(e);
         }
     }
- */    
+    */
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        
-    	
-    	
-    	
-    	DriveRead driveRead = new DriveRead();
+
+        DriveRead driveRead = new DriveRead();
     	try {
     		//request.setAttribute("drive.startort", driveRead.getDriveOffen(dummyUser) );
-			
-    		
-    		Map<String, Object> templateData = new HashMap<>();
-    		List<Drive> resevedDrives = driveRead.getDriveReserviert(dummyUser);
+    	
+    		List<Drive> reservedDrives = driveRead.getDriveReserviert(dummyUser);
     		List<Drive> openDrives = driveRead.getDriveOffen(dummyUser);
-    		if (resevedDrives.size() > 0) {
-    			templateData.put("reserveddrives", resevedDrives);
-    		}
-    		else {
-				templateData.put("reserveddriveslenght", 0);
-			}
-    		if (openDrives.size() > 0)
-    			templateData.put("opendrives", openDrives );
-    		else {
-				templateData.put("opendriveslenght", 0);
-			}
+//Printen der Fahrten:
+ //    		for (Drive drive : reservedDrives) {
+//        		System.out.println("Anbieter  " + drive.getAnbieter());
+//        		System.out.println("fahrtdatum  " + drive.getfahrtDatumString()+"\n");
+//        		System.out.println("fid  "  + drive.getFid()+"\n");
+//        		System.out.println("Zeit: " + drive.getfahrtZeitString()+"\n");
+//        		System.out.println("mp  " + drive.getMaxPlaetze()+"\n");
+//        		System.out.println("startort   : " + drive.getStartOrt()+"\n");
+//        		System.out.println("zielo    " + drive.getZielOrt()+"\n");
+//        		System.out.println("Transpm    " + drive.getTransportmittel()+"\n");
+//        		System.out.println("Reserved Drives ist: " + drive.getFahrtkosten()+"\n");
+//        		System.out.println("Timpstamp: "+ drive.getfahrtDatumZeit() +"\n");
+//        		
+//    		}
+//    		System.out.println("hier die offenen:");
+//    		
+    		
+//    		for (Drive drive : openDrives) {
+//    			System.out.print("Offene\n\n\n");
+//        		System.out.println("Anbieter  " + drive.getAnbieter());
+//        		System.out.println("fahrtdatum  " + drive.getfahrtDatumString()+"\n");
+//        		System.out.println("fid  "  + drive.getFid()+"\n");
+//        		System.out.println("Zeit: " + drive.getfahrtZeitString()+"\n");
+//        		System.out.println("mp  " + drive.getMaxPlaetze()+"\n");
+//        		System.out.println("startort   : " + drive.getStartOrt()+"\n");
+//        		System.out.println("zielo    " + drive.getZielOrt()+"\n");
+//        		System.out.println("Transpm    " + drive.getTransportmittel()+"\n");
+//        		System.out.println("Reserved Drives ist: " + drive.getFahrtkosten()+"\n");
+//        		
+//    		}
+
+    			request.setAttribute("reservedDrives", reservedDrives);
+
+    			request.setAttribute("openDrives", openDrives );
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -101,7 +126,17 @@ public final class HomepageServlet extends HttpServlet {
 ////    			response.sendRedirect("/new_drive");
 ////		}
 //    	else {
-        doGet(request, response);
-//    	}
+    	
+//    	Short fid = Short.parseShort(request.getParameter("drive.fid"));
+//    	System.out.println("fid ist :    "+fid);
+//        if (fid != null) {
+//        	request.setAttribute("drive.fid", fid );
+//        	response.sendRedirect("new_drive");
+//        }
+//      else {
+        	doGet(request, response);
+            //request.getRequestDispatcher("/view_main.ftl").forward(request, response);
+//		}
+
     }
 }

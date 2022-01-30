@@ -112,20 +112,19 @@
     <h1>carSharer</h1>
 
     <div class="content">
-        <div class="drives-list reserveddrives">
+        <div class="drives-list reservedDrives">
             <h2>Meine reservierten Fahrten</h2>
 				
-
+				<#if  reservedDrives?size gt 0>
                 <div class="drives-list-inner">
-                    <#list reserveddrives as drive>
-                        <div class="drive-card">
-                            <form action="view_drive" method="GET" id="reservedDrive-details">
-  							<button type="submit" name = "viewdrive" value ="pressed" form="reservedDrive-details">
-    						<img>
- 							 </button>
-							</form>
-							<class= "small" name = "drive-fid" type= "hidden" value= ${drive.fid}>
-							
+                
+                    <#list reservedDrives as drive>
+                        <form action="view_drive" method="POST" id="reservedDrive-details${drive.fid}">
+                          <div class="drive-card">
+                 		    <button type="submit" name="viewDrive" form="reservedDrive-details${drive.fid}">
+    						    <img>
+ 							</button>
+						    <input type="hidden" name="driveFid" value="${drive.fid}"> 
                             <div class="card-row">
                                 <b>Von:</b>
                                 <p>${drive.startOrt}</p>
@@ -138,33 +137,33 @@
                                 <b>Status:</b>
                                 <p>${drive.status}</p>
                             </div>
+                            </form>
                         </div>
                     </#list>
                 </div>
                 
-
+				<#else>
                 <div class="placeholder">
                     <p>Keine Fahrten reserviert.</p>
                 </div>
+                </#if>
         </div>
 
 
 
-
-        <div class="drives-list opendrives">
+		
+        <div class="drives-list openDrives">
 
             <h2>Offene Fahrten</h2>
-
+				<#if openDrives?size gt 0>
                 <div class="drives-list-inner">
-                    <#list opendrives as drive>
+                    <#list openDrives as drive>
+                      <form action="view_drive" method="POST" id="openDrive-details${drive.fid}" class="card-row">
                         <div class="drive-card">
-                            <form action="view_drive" method="GET" id="reservedDrive-details">
-  							<button type="submit" name = "viewdrive" value ="pressed" form="reservedDrive-details">
-    						<img>
+                            <button type="submit" name="view_Drive" form="openDrive-details${drive.fid}">
+    						<img src="\icons\auto.png" alt="Auto">
  							 </button>
-							</form>
-							<class= "small" name = "drive-fid" type= "hidden" value= ${drive.fid}>
-							
+ 							 <input type="hidden" name="driveFid" value="${drive.fid}">						
                             <div class="card-row">
                                 <b>Von:</b>
                                 <p>${drive.startOrt}</p>
@@ -177,14 +176,16 @@
                                 <b>Status:</b>
                                 <p>${drive.status}</p>
                             </div>
+                          </form>
                         </div>
                     </#list>
                 </div>
-
+			<#else>
             <div class="placeholder">
                 <p>Keine Fahrten offen.</p>
             </div>
         </div>
+        </#if>
 
         <a href="new_drive">Fahrt erstellen</a>
     </div>

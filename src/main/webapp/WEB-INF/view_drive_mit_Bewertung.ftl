@@ -187,7 +187,7 @@
             <table>
                 <tr>
                     <td>Anbieter:</td>
-                    <td>${emailAnbieter}</td>
+                    <td><type="text" name="emailAnbieter"></td>
                 </tr>
                 <tr>
                     <td>Fahrtdatum und -uhrzeit:</td>
@@ -239,18 +239,20 @@
         </div>
 
         <div class="details-ratings">
+        	<div class="bewertung-list bewertungen">
             <h2>Bewertungen</h2>
-
-            <h3><b>Durchschnittsrating:</b> ${</h3>
-            <table class="datatable">
-                <tr>
+				<#if  bewertungen?size gt 0>
+                <div class="bewertung-list-inner">
                 <#list bewertungen as bewertung>
-				<tr>
-				    <td>${berwertung.email}</td> <td>${bewertung.beschreibung}</td> <td>${bewertung.rating}</td>
-				</tr>
-				</#list>
+            <h3><b>Durchschnittsrating:</b> 4,33</h3>
+            <table>
+                <tr>
+                    <td>${bewertung.email}</td>
+                    <td>${bewertung.textnachricht}</td>
+                    <td>${bewertung.rating}</td>
                 </tr>
             </table>
+			</#list>
             <a class="rate" href="new_rating">Fahrt bewerten</a>
         </div>
     </div>

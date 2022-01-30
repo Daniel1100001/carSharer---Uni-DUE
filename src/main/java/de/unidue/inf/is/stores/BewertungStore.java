@@ -15,6 +15,7 @@ import de.unidue.inf.is.utils.DateTimeUtil;
 
 
 import de.unidue.inf.is.domain.Bewertung;
+import de.unidue.inf.is.reads.BewertungRead;
 
 public final class BewertungStore implements Closeable {
 
@@ -33,15 +34,61 @@ public final class BewertungStore implements Closeable {
     }
 
 
-    public void addBewertung(Bewertung bewertungToAdd) throws StoreException {
+    public void addBewertung(Bewertung bewertungToAdd, Short fid, Short bid) throws StoreException {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(""
-            		+ "insert into dbp187.bewertung (textnachricht, erstellungsdatum, rating)"
-            		+ " values (?, ?, ?);");
-            preparedStatement.setString(1, bewertungToAdd.gettextnachricht());
-            preparedStatement.setTimestamp(2, bewertungToAdd.geterstellungsdatum());
-            preparedStatement.setShort(3, bewertungToAdd.getrating());
-            preparedStatement.executeUpdate();
+        	PreparedStatement preparedStatement2 = connection.prepareStatement(""
+            		+ "select beid From (insert into dbp187.bewertung (textnachricht, erstellungsdatum, rating)"
+            		+ "values (?, ?, ?))");
+            preparedStatement2.setString(1, bewertungToAdd.gettextnachricht());
+            preparedStatement2.setTimestamp(2, bewertungToAdd.geterstellungsdatum());
+            preparedStatement2.setShort(3, bewertungToAdd.getrating() );
+        	ResultSet rs  = preparedStatement2.executeQuery();
+        	Short beid = null ;
+        	while (rs.next()) {
+        		beid =  rs.getShort("beid");
+			}
+            
+            
+            
+            PreparedStatement preparedStatement3 = connection.prepareStatement(""
+    		+ "insert into dpb187.schreiben (benutzer, fahrt, bewertung)"
+    		+ "values (?, ?, ?)");
+            preparedStatement3.setShort(1, bid);
+            preparedStatement3.setShort(2, fid);
+            preparedStatement3.setShort(3, beid);
+            preparedStatement3.executeUpdate();
+           
+        	
+        	
+//        	
+//            PreparedStatement preparedStatement1 = connection.prepareStatement(""
+//            		+ "insert into dbp187.bewertung (textnachricht, erstellungsdatum, rating)"
+//            		+ " values (?, ?, ?)");
+//
+//            preparedStatement1.setString(1, bewertungToAdd.gettextnachricht());
+//            preparedStatement1.setTimestamp(2, bewertungToAdd.geterstellungsdatum());
+//            preparedStatement1.setShort(3, bewertungToAdd.getrating());
+//            
+//        	PreparedStatement preparedStatement2 = connection.prepareStatement(""
+//            		+ "select beid From dbp187.bewertung where textnachricht= ? AND rating= ?)");
+//        	preparedStatement2.setString(1, bewertungToAdd.gettextnachricht());
+//        	preparedStatement1.setShort(2, bewertungToAdd.getrating());
+//        	ResultSet rs  = preparedStatement2.executeQuery();
+//        	Short beid = null ;
+//        	while (rs.next()) {
+//        		beid =  rs.getShort("beid");
+//			}
+//            
+//            
+//            
+//            PreparedStatement preparedStatement3 = connection.prepareStatement(""
+//    		+ "insert into dpb187.schreiben (benutzer, fahrt, bewertung)"
+//    		+ "values (?, ?, ?)");
+//            preparedStatement3.setShort(1, bid);
+//            preparedStatement3.setShort(2, fid);
+//            preparedStatement3.setShort(3, beid);
+//            preparedStatement3.executeUpdate();
+//           
         }
         catch (SQLException e) {
             throw new StoreException(e);

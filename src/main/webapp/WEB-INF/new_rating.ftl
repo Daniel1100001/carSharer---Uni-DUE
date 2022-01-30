@@ -92,7 +92,7 @@
             <tr>
                 <td>Bewertungstext:</td>
                 <td>
-                    <textarea required placeholder="Hier Bewertungstext eingeben..."></textarea>
+                    <textarea required placeholder="Hier Bewertungstext eingeben..." name="bewertungsText" maxlength="100" ></textarea>
                 </td>
             </tr>
             <tr>

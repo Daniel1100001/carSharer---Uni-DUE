@@ -7,6 +7,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 
+import de.unidue.inf.is.utils.DBUtil;
+import de.unidue.inf.is.utils.DateTimeUtil;
+
 public final class Drive {
 	private short fid;
 	private String startOrt;
@@ -41,6 +44,9 @@ public final class Drive {
 
 	public Drive(String startOrt, String zielOrt, java.sql.Timestamp fahrtDatumZeit, short maxPlaetze, java.math.BigDecimal fahrtkosten, String status, short anbieter, short transportmittel, String beschreibung,short fid) {
 		this.fahrtDatumZeit = fahrtDatumZeit;
+		String fahrtDatumZeitString = fahrtDatumZeit.toString();
+		this.fahrtZeitString = DateTimeUtil.extractTimeFromDB2DateTimeString(fahrtDatumZeitString);
+		this.fahrtDatumString = DateTimeUtil.extractDateFromDB2DateTimeString(fahrtDatumZeitString);
 		this.startOrt = startOrt;
 		this.zielOrt = zielOrt;
 		this.maxPlaetze = maxPlaetze;
@@ -55,6 +61,7 @@ public final class Drive {
 	
 	public Timestamp getfahrtDatumZeit() {return fahrtDatumZeit;}
 	public short getFid() {return fid;}
+	public String getStatus() {return status;}
 	public String getStartOrt() { return startOrt; }
 	public String getZielOrt() { return zielOrt; }
 	public short getMaxPlaetze() { return maxPlaetze; }
