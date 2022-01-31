@@ -33,7 +33,7 @@ public final class DriveDelete implements Closeable {
         try {
         	System.out.print(DBUtil.checkDatabaseExistsExternal());
  //       	preparedBatc preparedBatch = connection.();
-            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM dbp187.fahrt WHERE fid = ? ");
+            PreparedStatement preparedStatement = this.connection.prepareStatement("DELETE FROM dbp187.fahrt WHERE fid = ? ");
             preparedStatement.setShort(1, fid);
             preparedStatement.executeUpdate();
             System.out.println("Daten aus Fahrt gelöscht.\n");

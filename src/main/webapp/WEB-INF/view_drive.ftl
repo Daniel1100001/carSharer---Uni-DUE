@@ -245,20 +245,23 @@
         </div>
             <div class="bewertungen-list reservedDrives">
             <h2>Bewertungen</h2>
-            <h3><b>Durchschnittsrating:</b> </h3>
+            <h3><b>Durchschnittsrating:</b></h3>
             <table class="datatable">
-                <#list bewertungen as bewertung>
-				<tr>
+                <tr>
         			<th>Email</th>  <th>Beschreibung</th> <th>Rating</th>
     			</tr>
+                <#list bewertungen as bewertung>
 				<tr>
 				    <td>${bewertung.email}</td> <td>${bewertung.textnachricht}</td> <td>${bewertung.rating}</td>
 				</tr>
 				</#list>
                 </tr> 
             </table>
-            <button class="rate" type="submit">Fahrt bewerten</button></td>
-        </div>
+         		<form action="new_rating" method="GET" id="fahrtbewerten">
+                    <input type="hidden" name="driveFid" value="${driveToView.fid}">
+                    <td><button type="submit" name="fahrtbewerten" form="fahrtbewerten" >Fahrt bewerten</button></td>
+                </form>
+            </div>
     </div>
 </body>
 </html>

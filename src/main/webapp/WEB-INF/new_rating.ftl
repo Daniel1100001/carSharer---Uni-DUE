@@ -90,6 +90,8 @@
     <div class="content">
         <table>
             <tr>
+            <form action="new_rating" method="POST" id="fahrtbewerten">
+                    <input type="hidden" name="driveFid" value="${driveFid}">
                 <td>Bewertungstext:</td>
                 <td>
                     <textarea required placeholder="Hier Bewertungstext eingeben..." name="bewertungsText" maxlength="100" ></textarea>
@@ -112,12 +114,12 @@
 
                     <input type="radio" name="rating" id="5" value="5">
                     <label for="5">5</label>
-
+					 </form>
                 </td>
             </tr>
         </table>
-
-        <button type="submit">Bewerten</button>
-    </div>
+			<button type="submit" name="bewertung" form="fahrtbewerten" value="fahrtbewerten">Bewerten</button></td>
+    	</div>
+   
 </body>
 </html>

@@ -37,15 +37,15 @@ public final class BewertungStore implements Closeable {
     public void addBewertung(Bewertung bewertungToAdd, Short fid, Short bid) throws StoreException {
         try {
         	PreparedStatement preparedStatement2 = connection.prepareStatement(""
-            		+ "select beid From (insert into dbp187.bewertung (textnachricht, erstellungsdatum, rating)"
-            		+ "values (?, ?, ?))");
+            		+ "select beid From (insert into dbp187.bewertung (textnachricht, rating)"
+            		+ "values (?, ?))");
             preparedStatement2.setString(1, bewertungToAdd.gettextnachricht());
-            preparedStatement2.setTimestamp(2, bewertungToAdd.geterstellungsdatum());
-            preparedStatement2.setShort(3, bewertungToAdd.getrating() );
+            preparedStatement2.setShort(2, bewertungToAdd.getrating() );
         	ResultSet rs  = preparedStatement2.executeQuery();
         	Short beid = null ;
         	while (rs.next()) {
         		beid =  rs.getShort("beid");
+        		System.out.println("BewertungsID die zu speichern ist:   "+beid);
 			}
             
             
@@ -57,7 +57,7 @@ public final class BewertungStore implements Closeable {
             preparedStatement3.setShort(2, fid);
             preparedStatement3.setShort(3, beid);
             preparedStatement3.executeUpdate();
-           
+            System.out.println("\nBewertung geschrieben\n");
         	
         	
 //        	
