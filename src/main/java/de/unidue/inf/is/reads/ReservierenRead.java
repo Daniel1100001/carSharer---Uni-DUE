@@ -40,7 +40,7 @@ import de.unidue.inf.is.stores.StoreException;
                 
                 statement.setShort(1, fid);
                 ResultSet result = statement.executeQuery();
-                Short anzPlaetze = -1;
+                Short anzPlaetze = 0;
                 while(result.next()) {
                 			anzPlaetze =(short) result.getInt("sum");
                 }

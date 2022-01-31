@@ -227,9 +227,9 @@
                 <tr>
                     <td>
                         Anzahl Plätze für Reservierung:
-                        <form action="view_main" method="POST" id="fahrtreservieren">
+                        <form action="view_drive" method="GET" id="fahrtreservieren">
                     	<input type="hidden" name="driveFid" value="${driveToView.fid}">
-                        <input type="number" name="zuResP" min="1" max="${freiePlaetze}" value="1">
+                        <input type="number" name="zuResP" min="1" max="2" value="1">
                     </td>
                     <td><button class="reserve" type="submit" name="fahrtreservieren" form="fahrtreservieren" value="fahrtreservieren">Fahrt reservieren</button></td>
                     </form>
@@ -245,7 +245,7 @@
         </div>
             <div class="bewertungen-list reservedDrives">
             <h2>Bewertungen</h2>
-            <h3><b>Durchschnittsrating:</b></h3>
+            <h3><b>Durchschnittsrating: ${durchschnittsRating}</b></h3>
             <table class="datatable">
                 <tr>
         			<th>Email</th>  <th>Beschreibung</th> <th>Rating</th>

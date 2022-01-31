@@ -9,6 +9,7 @@ import de.unidue.inf.is.domain.Bewertung;
 import de.unidue.inf.is.domain.User;
 import de.unidue.inf.is.reads.BewertungRead;
 import de.unidue.inf.is.stores.BewertungStore;
+import de.unidue.inf.is.stores.StoreException;
 
 import java.io.IOException;
 
@@ -26,12 +27,16 @@ public final class RateDriveServlet extends HttpServlet {
 				+"\nBewertungstext:  " +bewertungString
 				+"\nRating:    "+rating);
     	Bewertung neueBewertung = new Bewertung(bewertungString,rating);
-    	BewertungStore bewertungStore = new BewertungStore();
-    	bewertungStore.addBewertung(neueBewertung, fid, dummyUser.getBid());
-    	bewertungStore.complete();
-    	bewertungStore.close();
-        response.sendRedirect("/view_main");
-        request.getRequestDispatcher("/view_drive.ftl").forward(request, response);
+    	try (BewertungStore bewertungStore = new BewertungStore()) {
+			bewertungStore.addBewertung(neueBewertung, fid, dummyUser.getBid());
+			bewertungStore.complete();
+		} catch (StoreException e) {
+			System.out.println("Berwertung erfolgreich gespeichert! ");
+			e.printStackTrace();
+		}
+    	//   	bewertungStore.close();
+//        response.sendRedirect("/view_main");
+        request.getRequestDispatcher("/view_main.ftl").forward(request, response);
     
     }
     

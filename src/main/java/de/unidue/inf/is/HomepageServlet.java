@@ -121,21 +121,8 @@ public final class HomepageServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	
     	
-		System.out.println("\nFid  " + request.getParameter("driveFid")+"\nPlätze  "+request.getParameter("zuResP")+"\nFahrtreservieren   "+request.getParameter("fahrtreservieren")+"\nFahrt löschen:  "+request.getParameter("fahrtlöschen"));
-    	
-    	if ( request.getParameter("driveFid") != null && request.getParameter("zuResP")!= null && request.getParameter("fahrtreservieren").equals("fahrtreservieren") ) {
-    		
-    		Short fid = Short.parseShort(request.getParameter("driveFid"));
-    		System.out.println("\n Fid die zu resevieren ist: "+fid);
-    		Short zuResPShort = Short.parseShort(request.getParameter("zuResP"));
-    		ReservierenStore reservierenStore = new ReservierenStore();
-    		reservierenStore.reservieren(fid, dummyUser, zuResPShort );
-    		reservierenStore.complete();
-    		reservierenStore.close();
 
-    		doGet(request, response);
-    	}
-    	else if  ( request.getParameter("driveFid") != null && request.getParameter("fahrtlöschen").equals("fahrtlöschen" ) ) {
+    	if  ( request.getParameter("driveFid") != null && request.getParameter("fahrtlöschen").equals("fahrtlöschen" ) ) {
     		Short fid = Short.parseShort(request.getParameter("driveFid"));
     		System.out.println("\n Fid die zu löschen ist "+fid);
     		try (DriveDelete driveDelete = new DriveDelete()) {

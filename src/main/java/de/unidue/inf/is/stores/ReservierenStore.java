@@ -38,17 +38,19 @@ import de.unidue.inf.is.domain.User;
 
 	    public void reservieren(short fid, User user, short anzPlaetze) throws StoreException {
 	    	try {	
-//	    		String sqlExistString = ("Select * FROM dbp187.reservieren WHERE fahrt ="+Short.toString(fid) +" AND kunde = "+Short.toString(user.getBid()).toString());
+	    		String sqlExistString2 = "Select * FROM dbp187.reservieren WHERE fahrt ="+fid +" AND kunde = "+ user.getBid();
 
 //	        	PreparedStatement preparedStatement0 = connection.prepareStatement(sqlExistString);
 	    //		System.out.println("\n Schon vorhandene Einträge:"+ resultSet.next());
 	    		
     			String sqlExistString = "update dbp187.reservieren"
-    					+ " set anzPlaetze = "+ Short.toString(anzPlaetze)
-    					+ " WHERE fahrt ="+Short.toString(fid) +" AND kunde = "+Short.toString(user.getBid());
-	        	System.out.print("Boolean von reservieren zurückgegeben:  "+connection.createStatement().execute(sqlExistString));
-	    		System.out.println(sqlExistString);
-	        	if(connection.createStatement().execute(sqlExistString)) {
+    					+ " set anzPlaetze = "+ anzPlaetze
+    					+ " WHERE fahrt ="+fid +" AND kunde = "+user.getBid();
+	        	System.out.println(sqlExistString+"\nBoolean von sql update reservieren zurückgegeben:  "+connection.createStatement().execute(sqlExistString)+"\n");
+	        	
+	    		System.out.println(sqlExistString2+"\n Booleen den das selectstatement.next zurückg:   "+(connection.createStatement().executeQuery(sqlExistString2)).next()+"\n");
+	    		
+	        	if((connection.createStatement().executeQuery(sqlExistString2)).next()) {
 		        	PreparedStatement preparedStatement = connection.prepareStatement(""
 		            		+ "update dbp187.reservieren "
 		            		+ "set anzPlaetze = ? "
@@ -61,7 +63,7 @@ import de.unidue.inf.is.domain.User;
 		    	    		System.out.println("\n Reservierung wurde geupdatet");
 					
 				}
-	        	else {
+	        	else if (!(connection.createStatement().executeQuery(sqlExistString2)).next()) {
 	        		PreparedStatement preparedStatement1 = connection.prepareStatement(""
 		            		+ "insert into  dbp187.reservieren (kunde, fahrt, anzPlaetze )"
 		            		+ " values (?, ?, ?)");
@@ -71,6 +73,9 @@ import de.unidue.inf.is.domain.User;
 		        			preparedStatement1.executeUpdate();
 		    	    		System.out.println("\n Fahrt ist reserviert");
 				} 
+	        	else {
+	        		System.out.println("\nFahr wurde nicht reserviert oder upgedatet\n");
+	        	}
 
 	    	}
 	        catch (SQLException e) {

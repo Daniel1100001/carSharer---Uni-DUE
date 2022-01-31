@@ -2,6 +2,7 @@ package de.unidue.inf.is.stores;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.sql.Clob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -36,10 +37,14 @@ public final class BewertungStore implements Closeable {
 
     public void addBewertung(Bewertung bewertungToAdd, Short fid, Short bid) throws StoreException {
         try {
+        	Clob clob = connection.createClob();
+        	
+        	clob.setString( 1, bewertungToAdd.gettextnachricht());
+        	
         	PreparedStatement preparedStatement2 = connection.prepareStatement(""
             		+ "select beid From (insert into dbp187.bewertung (textnachricht, rating)"
             		+ "values (?, ?))");
-            preparedStatement2.setString(1, bewertungToAdd.gettextnachricht());
+            preparedStatement2.setClob(1, clob );
             preparedStatement2.setShort(2, bewertungToAdd.getrating() );
         	ResultSet rs  = preparedStatement2.executeQuery();
         	Short beid = null ;
